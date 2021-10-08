@@ -2,16 +2,35 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1200</width>
     <height>600</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+    <stylestrategy>NoAntialias</stylestrategy>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Banco Real</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Assets/ico.ico</normaloff>../Assets/ico.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -33,7 +52,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QFrame" name="frame">
+       <widget class="QFrame" name="navegacao">
         <property name="minimumSize">
          <size>
           <width>160</width>
@@ -55,12 +74,12 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="logo">
                <property name="styleSheet">
                 <string notr="true">background-color: transparent; color: white; font-weight: bold; font-size: 20px; </string>
                </property>
                <property name="text">
-                <string>  Banco real         </string>
+                <string>  Banco real          </string>
                </property>
                <property name="icon">
                 <iconset>
@@ -93,7 +112,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="btn_goto_tela_cadastro">
              <property name="styleSheet">
               <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
              </property>
@@ -116,7 +135,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="btn_goto_tela_saque">
              <property name="styleSheet">
               <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
              </property>
@@ -139,7 +158,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="btn_goto_tela_transferencia">
              <property name="styleSheet">
               <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
              </property>
@@ -162,7 +181,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="btn_goto_tela_extrato">
              <property name="styleSheet">
               <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
              </property>
@@ -197,6 +216,32 @@
              </property>
             </spacer>
            </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="styleSheet">
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+             </property>
+             <property name="text">
+              <string>   Ajuda                              </string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../Assets/help.png</normaloff>../Assets/help.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="shortcut">
+              <string/>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -219,7 +264,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QStackedWidget" name="stackedWidget">
+       <widget class="QStackedWidget" name="pilha_de_telas">
         <property name="currentIndex">
          <number>1</number>
         </property>
