@@ -76,10 +76,10 @@
              <item>
               <widget class="QPushButton" name="logo">
                <property name="styleSheet">
-                <string notr="true">background-color: transparent; color: white; font-weight: bold; font-size: 20px; </string>
+                <string notr="true">background-color: transparent; color: white; font-weight: bold; font-size: 20px; text-align: left;</string>
                </property>
                <property name="text">
-                <string>  Banco real          </string>
+                <string>  Banco real</string>
                </property>
                <property name="icon">
                 <iconset>
@@ -114,10 +114,10 @@
            <item>
             <widget class="QPushButton" name="btn_goto_tela_cadastro">
              <property name="styleSheet">
-              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;text-align: left;</string>
              </property>
              <property name="text">
-              <string>   Cadastro                          </string>
+              <string>   Cadastro</string>
              </property>
              <property name="icon">
               <iconset>
@@ -137,10 +137,10 @@
            <item>
             <widget class="QPushButton" name="btn_goto_tela_saque">
              <property name="styleSheet">
-              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;text-align: left;</string>
              </property>
              <property name="text">
-              <string>   Saque                               </string>
+              <string>   Saque</string>
              </property>
              <property name="icon">
               <iconset>
@@ -160,10 +160,10 @@
            <item>
             <widget class="QPushButton" name="btn_goto_tela_transferencia">
              <property name="styleSheet">
-              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;text-align: left;</string>
              </property>
              <property name="text">
-              <string>   Transferencia                   </string>
+              <string>   Transferencia</string>
              </property>
              <property name="icon">
               <iconset>
@@ -183,10 +183,10 @@
            <item>
             <widget class="QPushButton" name="btn_goto_tela_extrato">
              <property name="styleSheet">
-              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;text-align: left;</string>
              </property>
              <property name="text">
-              <string>   Extrato                             </string>
+              <string>   Extrato</string>
              </property>
              <property name="icon">
               <iconset>
@@ -219,10 +219,10 @@
            <item>
             <widget class="QPushButton" name="pushButton">
              <property name="styleSheet">
-              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;</string>
+              <string notr="true">color: white; font-size: 14px; font-weight: bold; margin-top: 8px; margin-bottom: 8px; padding: 10px;text-align: left;</string>
              </property>
              <property name="text">
-              <string>   Ajuda                              </string>
+              <string>   Ajuda</string>
              </property>
              <property name="icon">
               <iconset>
@@ -266,7 +266,7 @@
       <item>
        <widget class="QStackedWidget" name="pilha_de_telas">
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tela_cadastro">
          <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -356,10 +356,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_5">
                 <property name="styleSheet">
-                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                 </property>
                 <property name="text">
-                 <string>   Nome Completo                                                                     </string>
+                 <string>   Nome Completo</string>
                 </property>
                 <property name="icon">
                  <iconset>
@@ -411,10 +411,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_6">
                 <property name="styleSheet">
-                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                 </property>
                 <property name="text">
-                 <string>   CPF                                                                                        </string>
+                 <string>   CPF</string>
                 </property>
                 <property name="icon">
                  <iconset>
@@ -469,10 +469,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_8">
                 <property name="styleSheet">
-                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                 </property>
                 <property name="text">
-                 <string>   Data de nascimento                                                               </string>
+                 <string>   Data de nascimento</string>
                 </property>
                 <property name="icon">
                  <iconset>
@@ -518,10 +518,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_9">
                 <property name="styleSheet">
-                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                 <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                 </property>
                 <property name="text">
-                 <string>   Senha de acesso                                                                    </string>
+                 <string>   Senha de acesso</string>
                 </property>
                 <property name="icon">
                  <iconset>
@@ -792,10 +792,10 @@
                 <item>
                  <widget class="QPushButton" name="pushButton_10">
                   <property name="styleSheet">
-                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                   </property>
                   <property name="text">
-                   <string>   Valor do Saque                                                             </string>
+                   <string>   Valor do Saque</string>
                   </property>
                   <property name="icon">
                    <iconset>
@@ -1035,10 +1035,10 @@
                 <item>
                  <widget class="QPushButton" name="pushButton_13">
                   <property name="styleSheet">
-                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                   </property>
                   <property name="text">
-                   <string>   Conta                                                                               </string>
+                   <string>   Conta</string>
                   </property>
                   <property name="icon">
                    <iconset>
@@ -1084,10 +1084,10 @@
                 <item>
                  <widget class="QPushButton" name="pushButton_14">
                   <property name="styleSheet">
-                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                   </property>
                   <property name="text">
-                   <string>   Agencia                                                                            </string>
+                   <string>   Agencia</string>
                   </property>
                   <property name="icon">
                    <iconset>
@@ -1133,10 +1133,10 @@
                 <item>
                  <widget class="QPushButton" name="pushButton_15">
                   <property name="styleSheet">
-                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; </string>
+                   <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
                   </property>
                   <property name="text">
-                   <string>   Valor de transferencia                                                       </string>
+                   <string>   Valor de transferencia</string>
                   </property>
                   <property name="icon">
                    <iconset>
