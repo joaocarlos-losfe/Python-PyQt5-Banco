@@ -266,7 +266,7 @@
       <item>
        <widget class="QStackedWidget" name="pilha_de_telas">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tela_cadastro">
          <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -810,7 +810,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit">
+                 <widget class="QLineEdit" name="ler_valor_saque">
                   <property name="minimumSize">
                    <size>
                     <width>380</width>
@@ -844,7 +844,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_17">
                   <item>
-                   <widget class="QPushButton" name="pushButton_12">
+                   <widget class="QPushButton" name="btn_confirma_saque">
                     <property name="styleSheet">
                      <string notr="true">background-color: #333333; color: white; padding: 8px; font-weight: bold; font-size: 12px; border-radius: 8px</string>
                     </property>
@@ -854,7 +854,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_11">
+                   <widget class="QPushButton" name="btn_saq_limpar_valor">
                     <property name="styleSheet">
                      <string notr="true">background-color: #505050;; color: white; padding: 8px; font-weight: bold; font-size: 12px; border-radius: 8px</string>
                     </property>
@@ -1053,7 +1053,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_2">
+                 <widget class="QLineEdit" name="ler_numero_conta">
                   <property name="minimumSize">
                    <size>
                     <width>380</width>
@@ -1102,7 +1102,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_3">
+                 <widget class="QLineEdit" name="ler_num_agencia">
                   <property name="minimumSize">
                    <size>
                     <width>380</width>
@@ -1151,7 +1151,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_4">
+                 <widget class="QLineEdit" name="ler_valor_transferir">
                   <property name="minimumSize">
                    <size>
                     <width>380</width>
@@ -1182,7 +1182,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_13">
                   <item>
-                   <widget class="QPushButton" name="pushButton_17">
+                   <widget class="QPushButton" name="btn_transferir">
                     <property name="styleSheet">
                      <string notr="true">background-color: #333333; color: white; padding: 8px; font-weight: bold; font-size: 12px; border-radius: 8px</string>
                     </property>

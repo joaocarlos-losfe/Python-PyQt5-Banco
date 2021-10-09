@@ -57,7 +57,7 @@ class Main(QMainWindow,Ui_Main):
         nascimento = self.tela_inicio.le_cad_nascimento_2.text()
         senha = self.tela_inicio.le_cad_senha_2.text()
         if not(nome == '' or cpf == '' or nascimento == '' or senha == ''):
-            p = Pessoa(nome,cpf,nascimento,senha)
+            p = Cliente(nome,cpf,nascimento,senha)
             if( self.cad.cadastra(p)):
                 QMessageBox.information(None,' [ ! ]','Cadastro Feito com Sucesso!')
                 self.tela_inicio.lineEdit.setText('')
