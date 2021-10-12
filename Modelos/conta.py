@@ -4,6 +4,8 @@ class Conta():
     _contador_contas = 0
 
     __slots__ = ['_numero', '_titular', '_saldo', '_limite', '_historico']
+    
+    # titular é do tipo Cliente()
 
     def __init__(self, numero, titular, saldo, limite = 10000):
         self._numero = numero
