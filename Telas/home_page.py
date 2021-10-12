@@ -10,11 +10,17 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Telas.estilos import Estilos
-from Telas.tela_apresentacao import Ui_tela_apresentacao
-from Telas.tela_cadastro import Ui_Tela_Cadastro
+
 from Telas.dialogs import Dialogs
 
+from Telas.tela_apresentacao import Ui_tela_apresentacao
+from Telas.tela_cadastro import Ui_Tela_Cadastro
 from Telas.tela_autenticacao import Ui_Tela_Autenticacao
+from Telas.tela_saque import Ui_Tela_Saque
+from Telas.tela_transferencia import Ui_Tela_Transferencia
+from Telas.tela_deposito import Ui_Tela_Deposito
+from Telas.tela_extrato import Ui_Tela_Extrato
+
 
 class Ui_MainHomePage(object):
 
@@ -47,8 +53,6 @@ class Ui_MainHomePage(object):
         elif tela_selecao == "ajuda":
             self.btn_got_tela_ajuda.setStyleSheet(self.estilo.estilo_botao_navegacao_clicado())
 
-
-
     def setup_telas(self):
 
         #-------------tela apresentacao------------------
@@ -79,50 +83,66 @@ class Ui_MainHomePage(object):
         # -------------tela saque------------------
         self.widget_tela_saque = QtWidgets.QWidget()
         self.widget_tela_saque.setObjectName("widget_tela_saque")
+        self.tela_saque = Ui_Tela_Saque()
+        self.tela_saque.setupUi(self.widget_tela_saque)
 
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.widget_tela_saque)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.stack_telas.addWidget(self.widget_tela_saque)
 
-        # -------------tela deposito------------------
-        self.widget_tela_deposito = QtWidgets.QWidget()
-        self.widget_tela_deposito.setObjectName("widget_tela_deposito")
-
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget_tela_deposito)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.stack_telas.addWidget(self.widget_tela_deposito)
-
         # -------------tela transferencia------------------
         self.widget_tela_transferencia = QtWidgets.QWidget()
         self.widget_tela_transferencia.setObjectName("widget_tela_transferencia")
+        self.tela_transferencia = Ui_Tela_Transferencia()
+        self.tela_transferencia.setupUi(self.widget_tela_transferencia)
 
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.widget_tela_transferencia)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.stack_telas.addWidget(self.widget_tela_transferencia)
 
+        # -------------tela deposito------------------
+        self.widget_tela_deposito = QtWidgets.QWidget()
+        self.widget_tela_deposito.setObjectName("widget_tela_deposito")
+        self.tela_deposito = Ui_Tela_Deposito()
+        self.tela_deposito.setupUi(self.widget_tela_deposito)
+
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget_tela_deposito)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.stack_telas.addWidget(self.widget_tela_deposito)
+
         # -------------tela extrato------------------
         self.widget_tela_extrato = QtWidgets.QWidget()
         self.widget_tela_extrato.setObjectName("widget_tela_extrato")
+        self.tela_extrato = Ui_Tela_Extrato()
+        self.tela_extrato.setupUi(self.widget_tela_extrato)
 
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget_tela_extrato)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.stack_telas.addWidget(self.widget_tela_extrato)
 
     def set_tela(self):
+        #aqui deve acontecer a checagem do usuario e senha para, caso exista, ir pra a tela correnspondente
+        #caso contrario, deve se emitir o alerta de que o usuario esta errado
+        self.limpar_campos()
+
         if self.tela_index == 3:
             print('logado em tela saque')
+            self.stack_telas.setCurrentIndex(3)
         elif self.tela_index == 4:
             print('logado em tela transferencia')
+            self.stack_telas.setCurrentIndex(4)
         elif self.tela_index == 5:
             print('logado em tela deposito')
+            self.stack_telas.setCurrentIndex(5)
         elif self.tela_index == 6:
             print('logado em tela extrato')
+            self.stack_telas.setCurrentIndex(6)
         elif self.tela_index == 7:
             print('logado em tela ajuda')
         else:
             self.stack_telas.setCurrentIndex(0)
 
-    def conexoes_botoes(self):
+    def acoes_botoes(self):
         self.btn_goto_tela_cadastro.clicked.connect(self.goto_tela_cadastro)
         self.btn_goto_tela_saque.clicked.connect(self.goto_tela_saque)
         self.btn_goto_tela_transferencia.clicked.connect(self.goto_tela_transferencia)
@@ -131,13 +151,39 @@ class Ui_MainHomePage(object):
         self.btn_got_tela_ajuda.clicked.connect(self.goto_tela_ajuda)
 
         self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
-        self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
 
+        self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_cadastro.btn_cad_cancelar_2.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
+
+    def limpar_campos(self):
+        #tela autenticacao
+        self.tela_autenticacao.le_aut_cpf.setText('')
+        self.tela_autenticacao.le_aut_senha.setText('')
+
+        #tela cadastro
+        self.tela_cadastro.le_cad_nome_completo_2.setText('')
+        self.tela_cadastro.le_cad_cpf_2.setText('')
+        self.tela_cadastro.le_cad_senha_2.setText('')
+
+        # tela saque
+        self.tela_saque.le_saque_valor.setText('')
+
+        # tela transferencia
+        self.tela_transferencia.le_tran_conta.setText('')
+        self.tela_transferencia.le_tran_agencia.setText('')
+        self.tela_transferencia.le_tran_valor_transferencia.setText('')
+        # tela extrato
 
     def goto_tela_apresentacao(self):
+        Dialogs.alert_mensage("Operação finalizada ✅", "finalizado")
+        self.tela_index = 0
         self.stack_telas.setCurrentIndex(0)
         self.reset_botoes_acoes()
+        self.limpar_campos()
 
     def goto_tela_autenticacao(self):
         self.stack_telas.setCurrentIndex(1)
@@ -284,7 +330,7 @@ class Ui_MainHomePage(object):
         MainHomePage.setCentralWidget(self.centralwidget)
 
         self.setup_telas()
-        self.conexoes_botoes()
+        self.acoes_botoes()
 
         self.retranslateUi(MainHomePage)
         self.stack_telas.setCurrentIndex(0)
@@ -300,4 +346,3 @@ class Ui_MainHomePage(object):
         self.btn_goto_tela_deposito.setText(_translate("MainHomePage", "   Deposito"))
         self.btn_goto_tela_extrato.setText(_translate("MainHomePage", "   Extrato"))
         self.btn_got_tela_ajuda.setText(_translate("MainHomePage", "   Ajuda"))
-

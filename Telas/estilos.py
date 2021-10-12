@@ -52,3 +52,78 @@ class Estilos():
                     background-color: #434343;
                 }
                """
+    def estilo_entradas(self):
+        return  """
+                QLineEdit
+                {
+                    background-color: #6C6C6C; 
+                    color: white; 
+                    padding: 5px; 
+                    corner-radius: 10px; 
+                    font-size: 12px; 
+                    font-weight: bold; 
+                    border-radius: 5px;
+                }
+                """
+
+    def estilo_botoes_confirmacao(self):
+        return  """
+                QPushButton
+                {
+                    background-color: #333333; 
+                    color: white; 
+                    padding: 8px; 
+                    font-weight: bold; 
+                    font-size: 12px; 
+                    border-radius: 8px;
+                }
+                
+                QPushButton:hover
+                {
+                    transition: all 1s ease-out;
+                    background-color: #646464;
+                }
+
+                QPushButton:pressed
+                {
+                    background-color: #434343;
+                }
+                """
+
+    def estilo_entradas(self):
+        return """
+                QLineEdit
+                {
+                    background-color: #6C6C6C; 
+                    color: white; 
+                    padding: 5px; 
+                    corner-radius: 10px; 
+                    font-size: 12px; 
+                    font-weight: bold; 
+                    border-radius: 5px;
+                }
+                """
+
+    def estilo_botoes_cancelamento(self):
+        return """
+                QPushButton
+                {
+                    background-color: #505050; 
+                    color: white; 
+                    padding: 8px; 
+                    font-weight: bold; 
+                    font-size: 12px; 
+                    border-radius: 8px;
+                }
+
+                QPushButton:hover
+                {
+                    transition: all 1s ease-out;
+                    background-color: #646464;
+                }
+
+                QPushButton:pressed
+                {
+                    background-color: #434343;
+                }
+                """
