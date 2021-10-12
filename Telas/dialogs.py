@@ -1,0 +1,21 @@
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QMessageBox, QDialog, QLineEdit, QDialogButtonBox, QFormLayout, QApplication
+from pyqt5_plugins.examplebutton import QtWidgets
+
+
+
+class Dialogs:
+
+    @classmethod
+    def confirmation_mensage(self, mensage, title):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(mensage)
+        msg.setWindowTitle(title)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+
+        confirmation = msg.exec()
+        if confirmation == QMessageBox.Yes:
+            return True
+        else:
+            return False
