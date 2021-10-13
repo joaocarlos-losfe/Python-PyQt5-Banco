@@ -33,6 +33,11 @@ class Ui_MainHomePage(object):
         self.tela_index = 0
         self.contas = Contas()
 
+        #------clientes teste
+        cliente = Cliente("joao", "de sousa", "111")
+        conta = Conta(cliente, "111")
+        self.contas.salvar_conta(conta)
+
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
         self.btn_goto_tela_saque.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -129,22 +134,17 @@ class Ui_MainHomePage(object):
         #aqui deve acontecer a checagem do usuario e senha para, caso exista, ir pra a tela correnspondente
         #caso contrario, deve se emitir o alerta de que o usuario esta errado
 
-        cliente0 = Cliente("joao", 'sousa', "111")
-        cliente1 = Cliente("3oao", 'sousa', "222")
+        cpf = self.tela_autenticacao.le_aut_cpf.text()
+        senha = self.tela_autenticacao.le_aut_senha.text()
 
-        conta0 = Conta(1,cliente0,1,1)
-        conta1 = Conta(1,cliente1,1,1)
+        conta = self.contas.get_conta_cpf(cpf)
 
-        self.contas.salvar_conta(conta0)
-        self.contas.salvar_conta(conta1)
+        if conta is not None and senha == conta.senha:
+            print(f'cpf e senha existem titular: {conta.titular.nome} {conta.titular.sobre_node}')
 
-        temp_conta = self.contas.get_conta(self.tela_autenticacao.le_aut_cpf.text())
-
-        if temp_conta is None:
-            Dialogs.alert_mensage("Conta não encontrada", "Erro")
-        else:
             if self.tela_index == 3:
                 print('logado em tela saque')
+                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {conta.titular.nome} {conta.titular.sobre_node}")
                 self.stack_telas.setCurrentIndex(3)
             elif self.tela_index == 4:
                 print('logado em tela transferencia')
@@ -157,10 +157,12 @@ class Ui_MainHomePage(object):
                 self.stack_telas.setCurrentIndex(6)
             elif self.tela_index == 7:
                 print('logado em tela ajuda')
-            else:
-                self.stack_telas.setCurrentIndex(0)
+        else:
+            Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
+            self.stack_telas.setCurrentIndex(0)
+            self.limpar_campos()
+            self.reset_botoes_acoes()
 
-        self.limpar_campos()
 
     def acoes_botoes(self):
         self.btn_goto_tela_cadastro.clicked.connect(self.goto_tela_cadastro)
@@ -171,23 +173,47 @@ class Ui_MainHomePage(object):
         self.btn_got_tela_ajuda.clicked.connect(self.goto_tela_ajuda)
 
         self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
+        self.tela_cadastro.btn_cad_salvar.clicked.connect(self.salvar_novo_cadastro)
 
         self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_cadastro.btn_cad_cancelar_2.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_cadastro.btn_cad_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
 
+    def salvar_novo_cadastro(self):
+
+        nome = self.tela_cadastro.le_cad_nome.text()
+        sobre_nome = self.tela_cadastro.le_cad_sobrenome.text()
+        cpf = self.tela_cadastro.le_cad_cpf.text()
+        senha = self.tela_cadastro.le_cad_senha.text()
+
+        if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
+            Dialogs.alert_mensage('⚠️ Algun(s) campo(s) estão vazio(s) ', "ERRO")
+        else:
+            cliente = Cliente(nome, sobre_nome, cpf)
+            conta = Conta(cliente, senha)
+            if self.contas.salvar_conta(conta):
+                Dialogs.alert_mensage(f"✅ Número da sua conta é: {conta.numero}", "OK")
+                Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
+            else:
+                Dialogs.alert_mensage('⚠️ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
+
+            self.limpar_campos()
+            self.goto_tela_apresentacao()
+
     def limpar_campos(self):
+
         #tela autenticacao
         self.tela_autenticacao.le_aut_cpf.setText('')
         self.tela_autenticacao.le_aut_senha.setText('')
 
         #tela cadastro
-        self.tela_cadastro.le_cad_nome_completo_2.setText('')
-        self.tela_cadastro.le_cad_cpf_2.setText('')
-        self.tela_cadastro.le_cad_senha_2.setText('')
+        self.tela_cadastro.le_cad_nome.setText('')
+        self.tela_cadastro.le_cad_sobrenome.setText('')
+        self.tela_cadastro.le_cad_cpf.setText('')
+        self.tela_cadastro.le_cad_senha.setText('')
 
         # tela saque
         self.tela_saque.le_saque_valor.setText('')
