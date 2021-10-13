@@ -135,6 +135,7 @@ class Ui_MainHomePage(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.stack_telas.addWidget(self.widget_tela_extrato)
 
+    #ao clicar no botão de salvar na tela de cadastro
     def salvar_novo_cadastro(self):
 
         nome = self.tela_cadastro.le_cad_nome.text()
@@ -143,15 +144,15 @@ class Ui_MainHomePage(object):
         senha = self.tela_cadastro.le_cad_senha.text()
 
         if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
-            Dialogs.alert_mensage('⚠️ Algun(s) campo(s) estão vazio(s) ', "ERRO")
+            Dialogs.alert_mensage('⚠ Algun(s) campo(s) estão vazio(s) ', "ERRO")
         else:
             cliente = Cliente(nome, sobre_nome, cpf)
             conta = Conta(cliente, senha)
             if self.contas.salvar_conta(conta):
-                Dialogs.alert_mensage(f"✅ Número da sua conta é: {conta.numero}", "OK")
                 Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
+                Dialogs.alert_mensage(f"✅ Número da sua conta é: {conta.numero}", "OK")
             else:
-                Dialogs.alert_mensage('⚠️ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
+                Dialogs.alert_mensage('⚠ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
 
             self.limpar_campos()
             self.goto_tela_apresentacao()
@@ -161,21 +162,24 @@ class Ui_MainHomePage(object):
 
         if self._tempConta is not None:
             if self.tela_saque.le_saque_valor.text() != '':
-                valor_saque = float(self.tela_saque.le_saque_valor.text())
-                sacou = self._tempConta.sacar(valor_saque)
+                try:
+                    valor_saque = float(self.tela_saque.le_saque_valor.text())
+                    sacou = self._tempConta.sacar(valor_saque)
 
-                if sacou:
-                    Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
-                    novo_saque = Dialogs.confirmation_mensage("Deseja relizar outro saque ? ", "Novo Saque")
+                    if sacou:
+                        Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
+                        novo_saque = Dialogs.confirmation_mensage("Deseja relizar outro saque ? ", "Novo Saque")
 
-                    if novo_saque is False:
-                        self.goto_tela_apresentacao()
-                else:
-                    Dialogs.alert_mensage(f"⚠ Saldo insuficiente para saque no valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
-                    novo_saque = Dialogs.confirmation_mensage("Deseja tentar novamente com um novo valor ? ", "Novo Saque")
+                        if novo_saque is False:
+                            self.goto_tela_apresentacao()
+                    else:
+                        Dialogs.alert_mensage(f"⚠ Saldo insuficiente para saque no valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
+                        novo_saque = Dialogs.confirmation_mensage("Deseja tentar novamente com um novo valor ? ", "Novo Saque")
 
-                    if novo_saque is False:
-                        self.goto_tela_apresentacao()
+                        if novo_saque is False:
+                            self.goto_tela_apresentacao()
+                except:
+                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
             else:
                 Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
 
