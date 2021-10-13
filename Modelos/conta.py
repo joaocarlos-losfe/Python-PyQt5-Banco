@@ -50,11 +50,11 @@ class Conta():
     def _definir_historico(self, msg):
         self._historico.historico_transacoes.append(msg)
 
-    def depositar(self, valor):
+    def depositar(self, valor:float):
         self._saldo += valor
         self._definir_historico(f"deposito no valor de R$ {valor} dia {datetime.today()}. saldo atual: R$ {self._saldo}")
 
-    def sacar(self, valor):
+    def sacar(self, valor:float):
         if(valor > self._saldo):
             self._definir_historico(f"tentativa de saque no valor de R$ {valor} dia {datetime.today()}. valor de saque maior que o saldo disponivel na conta")
             return False

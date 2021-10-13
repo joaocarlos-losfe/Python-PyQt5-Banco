@@ -25,18 +25,23 @@ from Modelos.contas import Contas
 from Modelos.conta import Conta
 from Modelos.cliente import Cliente
 
-
 class Ui_MainHomePage(object):
 
     def __init__(self):
         self.estilo = Estilos()
         self.tela_index = 0
         self.contas = Contas()
+        self._tempConta = None
 
         #------clientes teste
-        cliente = Cliente("joao", "de sousa", "111")
-        conta = Conta(cliente, "111")
-        self.contas.salvar_conta(conta)
+        cliente1 = Cliente("joao", "de sousa", "111")
+        conta1 = Conta(cliente1, "111")
+        conta1.depositar(200)
+        self.contas.salvar_conta(conta1)
+
+        cliente2 = Cliente("vitor", "santos de lima", "222")
+        conta2 = Conta(cliente2, "222")
+        self.contas.salvar_conta(conta2)
 
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -130,58 +135,6 @@ class Ui_MainHomePage(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.stack_telas.addWidget(self.widget_tela_extrato)
 
-    def set_tela(self):
-        #aqui deve acontecer a checagem do usuario e senha para, caso exista, ir pra a tela correnspondente
-        #caso contrario, deve se emitir o alerta de que o usuario esta errado
-
-        cpf = self.tela_autenticacao.le_aut_cpf.text()
-        senha = self.tela_autenticacao.le_aut_senha.text()
-
-        conta = self.contas.get_conta_cpf(cpf)
-
-        if conta is not None and senha == conta.senha:
-            print(f'cpf e senha existem titular: {conta.titular.nome} {conta.titular.sobre_node}')
-
-            if self.tela_index == 3:
-                print('logado em tela saque')
-                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {conta.titular.nome} {conta.titular.sobre_node}")
-                self.stack_telas.setCurrentIndex(3)
-            elif self.tela_index == 4:
-                print('logado em tela transferencia')
-                self.stack_telas.setCurrentIndex(4)
-            elif self.tela_index == 5:
-                print('logado em tela deposito')
-                self.stack_telas.setCurrentIndex(5)
-            elif self.tela_index == 6:
-                print('logado em tela extrato')
-                self.stack_telas.setCurrentIndex(6)
-            elif self.tela_index == 7:
-                print('logado em tela ajuda')
-        else:
-            Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
-            self.stack_telas.setCurrentIndex(0)
-            self.limpar_campos()
-            self.reset_botoes_acoes()
-
-
-    def acoes_botoes(self):
-        self.btn_goto_tela_cadastro.clicked.connect(self.goto_tela_cadastro)
-        self.btn_goto_tela_saque.clicked.connect(self.goto_tela_saque)
-        self.btn_goto_tela_transferencia.clicked.connect(self.goto_tela_transferencia)
-        self.btn_goto_tela_deposito.clicked.connect(self.goto_tela_deposito)
-        self.btn_goto_tela_extrato.clicked.connect(self.goto_tela_extrato)
-        self.btn_got_tela_ajuda.clicked.connect(self.goto_tela_ajuda)
-
-        self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
-        self.tela_cadastro.btn_cad_salvar.clicked.connect(self.salvar_novo_cadastro)
-
-        self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_cadastro.btn_cad_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
-
     def salvar_novo_cadastro(self):
 
         nome = self.tela_cadastro.le_cad_nome.text()
@@ -202,6 +155,79 @@ class Ui_MainHomePage(object):
 
             self.limpar_campos()
             self.goto_tela_apresentacao()
+
+    #ao clicar no botão "sacar" da tela de saque
+    def realizar_saque(self):
+
+        if self._tempConta is not None:
+            if self.tela_saque.le_saque_valor.text() != '':
+                valor_saque = float(self.tela_saque.le_saque_valor.text())
+                sacou = self._tempConta.sacar(valor_saque)
+
+                if sacou:
+                    Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
+                    novo_saque = Dialogs.confirmation_mensage("Deseja relizar outro saque ? ", "Novo Saque")
+
+                    if novo_saque is False:
+                        self.goto_tela_apresentacao()
+                else:
+                    Dialogs.alert_mensage(f"⚠ Saldo insuficiente para saque no valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
+                    novo_saque = Dialogs.confirmation_mensage("Deseja tentar novamente com um novo valor ? ", "Novo Saque")
+
+                    if novo_saque is False:
+                        self.goto_tela_apresentacao()
+            else:
+                Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
+
+    def set_tela(self):
+
+        cpf = self.tela_autenticacao.le_aut_cpf.text()
+        senha = self.tela_autenticacao.le_aut_senha.text()
+
+        self._tempConta = self.contas.get_conta_cpf(cpf)
+
+        if self._tempConta is not None and senha == self._tempConta.senha:
+
+            if self.tela_index == 3:
+                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                self.stack_telas.setCurrentIndex(3)
+
+            elif self.tela_index == 4:
+                self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                self.stack_telas.setCurrentIndex(4)
+            elif self.tela_index == 5:
+                self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                self.stack_telas.setCurrentIndex(5)
+            elif self.tela_index == 6:
+                self.tela_extrato.lbl_ext_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                self.stack_telas.setCurrentIndex(6)
+            elif self.tela_index == 7:
+                pass
+
+            self.limpar_campos()
+        else:
+            Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
+
+
+    def acoes_botoes(self):
+        self.btn_goto_tela_cadastro.clicked.connect(self.goto_tela_cadastro)
+        self.btn_goto_tela_saque.clicked.connect(self.goto_tela_saque)
+        self.btn_goto_tela_transferencia.clicked.connect(self.goto_tela_transferencia)
+        self.btn_goto_tela_deposito.clicked.connect(self.goto_tela_deposito)
+        self.btn_goto_tela_extrato.clicked.connect(self.goto_tela_extrato)
+        self.btn_got_tela_ajuda.clicked.connect(self.goto_tela_ajuda)
+
+        self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
+        self.tela_cadastro.btn_cad_salvar.clicked.connect(self.salvar_novo_cadastro)
+
+        self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_cadastro.btn_cad_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
+
+        self.tela_saque.btn_saque_confirmar.clicked.connect(self.realizar_saque)
 
     def limpar_campos(self):
 
@@ -227,6 +253,7 @@ class Ui_MainHomePage(object):
     def goto_tela_apresentacao(self):
         Dialogs.alert_mensage("Operação finalizada ✅", "finalizado")
         self.tela_index = 0
+        self._tempConta = None
         self.stack_telas.setCurrentIndex(0)
         self.reset_botoes_acoes()
         self.limpar_campos()
