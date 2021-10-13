@@ -21,12 +21,27 @@ from Telas.tela_transferencia import Ui_Tela_Transferencia
 from Telas.tela_deposito import Ui_Tela_Deposito
 from Telas.tela_extrato import Ui_Tela_Extrato
 
+from Modelos.contas import Contas
+from Modelos.conta import Conta
+from Modelos.cliente import Cliente
+
 
 class Ui_MainHomePage(object):
 
     def __init__(self):
         self.estilo = Estilos()
         self.tela_index = 0
+        self.contas = Contas()
+        self.cliente0 = Cliente(1,1,4)
+        self.cliente1 = Cliente(1,1,3)
+
+        self.conta0 = Conta(1,self.cliente0,3,4)
+        self.conta1 = Conta(1,self.cliente1,5,4)
+        self.contas.salvar_conta(self.conta0)
+
+        self.cpf = None
+        self.senha = None
+
 
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -123,6 +138,26 @@ class Ui_MainHomePage(object):
     def set_tela(self):
         #aqui deve acontecer a checagem do usuario e senha para, caso exista, ir pra a tela correnspondente
         #caso contrario, deve se emitir o alerta de que o usuario esta errado
+        contas = Contas()
+
+        cliente0 = Cliente(1,2,1)
+        cliente1 = Cliente(1,2,2)
+        cliente2 = Cliente(1,2,3)
+        cliente3 = Cliente(1,2,3)
+
+        conta0 = Conta(1,cliente0,1,1)
+        conta1 = Conta(1,cliente1,1,1)
+        conta2 = Conta(1,cliente2,1,1)
+        conta3 = Conta(1,cliente3,1,1)
+
+
+        print(contas.salvar_conta(conta0))
+        print(contas.salvar_conta(conta1))
+        print(contas.salvar_conta(conta2))
+        print(contas.salvar_conta(conta3))
+
+        print(contas.get_conta(4))
+        print(conta0.quantidade_contas())
         self.limpar_campos()
 
         if self.tela_index == 3:

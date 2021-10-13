@@ -1,13 +1,15 @@
-from historico import Historico
+from Modelos.cliente import Cliente
+from Modelos.historico import Historico
+
 class Conta():
 
     _contador_contas = 0
 
     __slots__ = ['_numero', '_titular', '_saldo', '_limite', '_historico']
-    
+
     # titular é do tipo Cliente()
 
-    def __init__(self, numero, titular, saldo, limite = 10000):
+    def __init__(self, numero, titular:Cliente, saldo, limite = 10000):
         self._numero = numero
         self._titular = titular
         self._saldo = saldo
@@ -15,7 +17,7 @@ class Conta():
         self._historico = Historico()
         Conta._contador_contas += 1
 
-        #self._definir_historico(f"conta aberta dia {self.historico.data_abertura}. Numero: {self.numero}. Limite: {self.limite} ")
+        self._definir_historico(f"conta aberta dia {self._historico.data_abertura}. Numero: {self._numero}. Limite: {self._limite} ")
 
     @property
     def saldo(self):
