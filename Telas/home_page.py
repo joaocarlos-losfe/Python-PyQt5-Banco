@@ -331,6 +331,7 @@ class Ui_MainHomePage(object):
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("./Assets/money.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.logo.setIcon(icon1)
+        self.logo.setFlat(True)
         self.logo.setIconSize(QtCore.QSize(32, 32))
         self.logo.setObjectName("logo")
         self.horizontalLayout_5.addWidget(self.logo)
