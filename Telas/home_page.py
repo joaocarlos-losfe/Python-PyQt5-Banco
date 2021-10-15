@@ -32,6 +32,7 @@ class Ui_MainHomePage(object):
         self.tela_index = 0
         self.contas = Contas()
         self._tempConta = None
+        self.show_password_flag = True
 
         #------clientes teste
         cliente1 = Cliente("joao", "de sousa", "111")
@@ -173,7 +174,7 @@ class Ui_MainHomePage(object):
                         if novo_saque is False:
                             self.goto_tela_apresentacao()
                     else:
-                        Dialogs.alert_mensage(f"⚠ Saldo insuficiente para saque no valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
+                        Dialogs.alert_mensage(f"⚠ Saque não realizado! Por favor, confira o valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
                         novo_saque = Dialogs.confirmation_mensage("Deseja tentar novamente com um novo valor ? ", "Novo Saque")
 
                         if novo_saque is False:
@@ -212,6 +213,14 @@ class Ui_MainHomePage(object):
         else:
             Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
 
+    def exibir_password(self):
+        if(self.show_password_flag == True):
+            self.tela_cadastro.le_cad_senha.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.show_password_flag = False
+        else:
+            self.tela_cadastro.le_cad_senha.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.show_password_flag = True
+
 
     def acoes_botoes(self):
         self.btn_goto_tela_cadastro.clicked.connect(self.goto_tela_cadastro)
@@ -223,6 +232,7 @@ class Ui_MainHomePage(object):
 
         self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
         self.tela_cadastro.btn_cad_salvar.clicked.connect(self.salvar_novo_cadastro)
+        self.tela_cadastro.btn_cad_exibir_senha.clicked.connect(self.exibir_password)
 
         self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_cadastro.btn_cad_cancelar.clicked.connect(self.goto_tela_apresentacao)
