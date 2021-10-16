@@ -125,7 +125,7 @@ class Ui_MainHomePage(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget_tela_deposito)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.stack_telas.addWidget(self.widget_tela_deposito)
-
+        """
         # -------------tela extrato------------------
         self.widget_tela_extrato = QtWidgets.QWidget()
         self.widget_tela_extrato.setObjectName("widget_tela_extrato")
@@ -135,6 +135,7 @@ class Ui_MainHomePage(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget_tela_extrato)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.stack_telas.addWidget(self.widget_tela_extrato)
+        """
 
     #ao clicar no botão de salvar na tela de cadastro
     def salvar_novo_cadastro(self):
@@ -204,8 +205,9 @@ class Ui_MainHomePage(object):
                 self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
                 self.stack_telas.setCurrentIndex(5)
             elif self.tela_index == 6:
-                self.tela_extrato.lbl_ext_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                self.stack_telas.setCurrentIndex(6)
+                #self.tela_extrato.lbl_ext_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                #self.stack_telas.setCurrentIndex(6)
+                pass
             elif self.tela_index == 7:
                 pass
 
@@ -239,7 +241,7 @@ class Ui_MainHomePage(object):
         self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
+        #self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
 
         self.tela_saque.btn_saque_confirmar.clicked.connect(self.realizar_saque)
 

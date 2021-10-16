@@ -9,9 +9,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from Telas.estilos import Estilos
 
 class Ui_Tela_Cadastro(object):
+
+    def __init__(self):
+        self.cad_estilo = Estilos()
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1000, 500)
@@ -120,11 +124,11 @@ class Ui_Tela_Cadastro(object):
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
         self.btn_cad_salvar = QtWidgets.QPushButton(Form)
-        self.btn_cad_salvar.setStyleSheet("background-color: #333333; color: white; padding: 8px; font-weight: bold; font-size: 12px; border-radius: 8px")
+        self.btn_cad_salvar.setStyleSheet(self.cad_estilo.estilo_botoes_confirmacao())
         self.btn_cad_salvar.setObjectName("btn_cad_salvar")
         self.horizontalLayout_12.addWidget(self.btn_cad_salvar)
         self.btn_cad_cancelar = QtWidgets.QPushButton(Form)
-        self.btn_cad_cancelar.setStyleSheet("background-color: #505050;; color: white; padding: 8px; font-weight: bold; font-size: 12px; border-radius: 8px")
+        self.btn_cad_cancelar.setStyleSheet(self.cad_estilo.estilo_botoes_cancelamento())
         self.btn_cad_cancelar.setObjectName("btn_cad_cancelar")
         self.horizontalLayout_12.addWidget(self.btn_cad_cancelar)
         self.verticalLayout_4.addLayout(self.horizontalLayout_12)
