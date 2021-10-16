@@ -52,15 +52,15 @@ class Conta():
 
     def depositar(self, valor:float):
         self._saldo += valor
-        self._definir_historico(f"deposito no valor de R$ {valor} dia {datetime.today()}. saldo atual: R$ {self._saldo}")
+        self._definir_historico(f"deposito no valor de R$ {valor} dia {datetime.today()}. saldo na data do deposito: R$ {self._saldo}")
 
     def sacar(self, valor:float):
         if(valor > self._saldo or valor <= 0):
-            self._definir_historico(f"tentativa de saque no valor de R$ {valor} dia {datetime.today()}. valor de saque maior que o saldo disponivel na conta")
+            self._definir_historico(f"tentativa de saque no valor de R$ {valor} dia {datetime.today()}")
             return False
         else:
             self._saldo -= valor
-            self._definir_historico(f"saque realizado no valor de R$ {valor} dia {datetime.today()}. saldo atual: R$ {self._saldo}")
+            self._definir_historico(f"saque realizado no valor de R$ {valor} dia {datetime.today()}. saldo na data do saque: R$ {self._saldo}")
             return True
 
     def transfere(self, conta_destino, valor):
@@ -73,6 +73,9 @@ class Conta():
             self._definir_historico(f"você recebeu uma transferencia de {self._titular.nome}. no valor de {valor}")
             conta_destino.depositar(valor)
             return True
+
+    def get_historico(self):
+        return self._historico.get_historico()
 
     @staticmethod
     def quantidade_contas():

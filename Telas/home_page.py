@@ -125,7 +125,7 @@ class Ui_MainHomePage(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget_tela_deposito)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.stack_telas.addWidget(self.widget_tela_deposito)
-        """
+
         # -------------tela extrato------------------
         self.widget_tela_extrato = QtWidgets.QWidget()
         self.widget_tela_extrato.setObjectName("widget_tela_extrato")
@@ -135,7 +135,7 @@ class Ui_MainHomePage(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget_tela_extrato)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.stack_telas.addWidget(self.widget_tela_extrato)
-        """
+
 
     #ao clicar no botão de salvar na tela de cadastro
     def salvar_novo_cadastro(self):
@@ -160,6 +160,23 @@ class Ui_MainHomePage(object):
             self.goto_tela_apresentacao()
 
     #ao clicar no botão "sacar" da tela de saque
+    def realizar_deposito(self):
+        if self._tempConta is not None:
+            if self.tela_deposito.le_dep_valor.text() != '':
+                try:
+                    valor_deposito = float(self.tela_deposito.le_dep_valor.text())
+
+                    self._tempConta.depositar(valor_deposito)
+                    Dialogs.alert_mensage("✔ Deposito realizado com sucesso", "OK")
+                    novo_deposito = Dialogs.confirmation_mensage("Deseja relizar outro deposito ? ", "Novo deposito")
+                    if novo_deposito is False:
+                        self.goto_tela_apresentacao()
+
+                except:
+                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+            else:
+                Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
+
     def realizar_saque(self):
 
         if self._tempConta is not None:
@@ -201,13 +218,18 @@ class Ui_MainHomePage(object):
             elif self.tela_index == 4:
                 self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
                 self.stack_telas.setCurrentIndex(4)
+
             elif self.tela_index == 5:
                 self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
                 self.stack_telas.setCurrentIndex(5)
+
             elif self.tela_index == 6:
-                #self.tela_extrato.lbl_ext_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                #self.stack_telas.setCurrentIndex(6)
-                pass
+                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
+                for historico in self._tempConta._historico.historico_transacoes:
+                    self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
+
+                self.stack_telas.setCurrentIndex(6)
+
             elif self.tela_index == 7:
                 pass
 
@@ -235,13 +257,14 @@ class Ui_MainHomePage(object):
         self.tela_autenticacao.btn_aut_confirmar.clicked.connect(self.set_tela)
         self.tela_cadastro.btn_cad_salvar.clicked.connect(self.salvar_novo_cadastro)
         self.tela_cadastro.btn_cad_exibir_senha.clicked.connect(self.exibir_password)
+        self.tela_deposito.btn_dep_depositar.clicked.connect(self.realizar_deposito)
 
         self.tela_autenticacao.btn_aut_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_cadastro.btn_cad_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_saque.btn_saque_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_transferencia.btn_tran_cancelar.clicked.connect(self.goto_tela_apresentacao)
         self.tela_deposito.btn_dep_cancelar.clicked.connect(self.goto_tela_apresentacao)
-        #self.tela_extrato.btn_ext_encerrar.clicked.connect(self.goto_tela_apresentacao)
+        self.tela_extrato.btn_ext_fechar.clicked.connect(self.goto_tela_apresentacao)
 
         self.tela_saque.btn_saque_confirmar.clicked.connect(self.realizar_saque)
 
@@ -259,12 +282,14 @@ class Ui_MainHomePage(object):
 
         # tela saque
         self.tela_saque.le_saque_valor.setText('')
-
+        #tela deposito
+        self.tela_deposito.le_dep_valor.setText('')
         # tela transferencia
         self.tela_transferencia.le_tran_conta.setText('')
         self.tela_transferencia.le_tran_agencia.setText('')
         self.tela_transferencia.le_tran_valor_transferencia.setText('')
         # tela extrato
+
 
     def goto_tela_apresentacao(self):
         Dialogs.alert_mensage("Operação finalizada ✅", "finalizado")
@@ -273,6 +298,7 @@ class Ui_MainHomePage(object):
         self.stack_telas.setCurrentIndex(0)
         self.reset_botoes_acoes()
         self.limpar_campos()
+        self.tela_extrato.lw_extrato.clear()
 
     def goto_tela_autenticacao(self):
         self.stack_telas.setCurrentIndex(1)

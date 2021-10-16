@@ -9,38 +9,57 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QListWidgetItem
+from Telas.estilos import Estilos
 
 class Ui_Tela_Extrato(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        font = QtGui.QFont()
-        font.setPointSize(1)
-        MainWindow.setFont(font)
-        MainWindow.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
+
+    def __init__(self):
+        self.estilos = Estilos()
+
+    def create_item(self, text):
+        item = QListWidgetItem()
+        item.setText(text)
+        item.setTextAlignment(Qt.AlignHCenter)
+        return item
+
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(1000, 500)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.centralwidget)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.verticalLayout.addItem(spacerItem)
+        self.lbl_extr_usuario = QtWidgets.QLabel(Form)
+        self.lbl_extr_usuario.setStyleSheet("font-weight: bold; font-size: 14px; color: #333333;")
+        self.lbl_extr_usuario.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.lbl_extr_usuario, 0, QtCore.Qt.AlignHCenter)
+        self.label = QtWidgets.QLabel(Form)
         self.label.setStyleSheet("color:#333333;font-size:16px;text-alighn:center;")
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.lw_extrato = QtWidgets.QListWidget(self.centralwidget)
-        self.lw_extrato.setStyleSheet("background-color: rgb(108, 108, 108);margin:5px;border-radius: 10px;\n"
+        self.lw_extrato = QtWidgets.QListWidget(Form)
+        self.lw_extrato.setStyleSheet("background-color: rgb(108, 108, 108);margin:5px;border-radius: 10px; color: white; font-size: 14px; padding: 5px;\n"
 "")
         self.lw_extrato.setObjectName("lw_extrato")
         self.verticalLayout.addWidget(self.lw_extrato)
+        self.btn_ext_fechar = QtWidgets.QPushButton(Form)
+        self.btn_ext_fechar.setMinimumSize(QtCore.QSize(200, 0))
+        self.btn_ext_fechar.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.btn_ext_fechar.setStyleSheet(self.estilos.estilo_botoes_cancelamento())
+        self.btn_ext_fechar.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.btn_ext_fechar, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addLayout(self.verticalLayout)
-        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Extrato"))
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.lbl_extr_usuario.setText(_translate("Form", "Usuario: fulano de tal"))
+        self.label.setText(_translate("Form", "  Extrato"))
+        self.btn_ext_fechar.setText(_translate("Form", "Fechar"))
