@@ -63,6 +63,7 @@ class Ui_Tela_Saque(object):
         self.pushButton_10.setIcon(icon)
         self.pushButton_10.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_10.setObjectName("pushButton_10")
+        self.pushButton_10.setFlat(True)
         self.verticalLayout_8.addWidget(self.pushButton_10)
         self.le_saque_valor = QtWidgets.QLineEdit(Ui_Tela_Saque)
         self.le_saque_valor.setMinimumSize(QtCore.QSize(380, 0))

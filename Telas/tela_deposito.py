@@ -41,6 +41,7 @@ class Ui_Tela_Deposito(object):
         self.verticalLayout.addItem(spacerItem2)
         self.pushButton = QtWidgets.QPushButton(Ui_Tela_Deposito)
         self.pushButton.setStyleSheet("background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;")
+        self.pushButton.setFlat(True)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./Assets/dollar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon)

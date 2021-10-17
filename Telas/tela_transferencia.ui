@@ -149,55 +149,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_14">
-           <property name="styleSheet">
-            <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>
-           </property>
-           <property name="text">
-            <string>   Agencia</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../../../Projetos/testes/Assets/company.png</normaloff>../../../Projetos/testes/Assets/company.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_tran_agencia">
-           <property name="minimumSize">
-            <size>
-             <width>380</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: #6C6C6C; color: white; padding: 5px; corner-radius: 10px; font-size: 12px; font-weight: bold; border-radius: 5px;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_17">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Maximum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>25</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QPushButton" name="pushButton_15">
            <property name="styleSheet">
             <string notr="true">background-color: transparent; color: #333333;font-size: 12px; font-weight: bold; text-align: left;</string>

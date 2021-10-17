@@ -202,6 +202,34 @@ class Ui_MainHomePage(object):
             else:
                 Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
 
+    def realizar_transferencia(self):
+        try:
+            numero_conta = self.tela_transferencia.le_tran_conta.text()
+            valor = float(self.tela_transferencia.le_tran_valor_transferencia.text())
+            if(numero_conta != ''):
+                if(valor > 0):
+                    conta_destino = self.contas.get_conta_numero(numero_conta)
+                    if(conta_destino != None):
+                        if(self._tempConta.transfere(conta_destino,valor) is True):
+                            Dialogs.alert_mensage(f"✅ Transferencia realizada com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
+                            nova_transferencia = Dialogs.confirmation_mensage("Deseja relizar outra transferencia? ", "Nova Transferencia")
+                            if(nova_transferencia is False):
+                                self.goto_tela_apresentacao()
+                        else:
+                             Dialogs.alert_mensage(f"⚠ Transferencia não realizada! Saldo insuficiente", "ERRO")
+                    else:
+                        Dialogs.alert_mensage(f"⚠ Transferencia não realizada! Conta destino não encontrada", "ERRO")
+                        nova_transferencia = Dialogs.confirmation_mensage("Deseja tentar novamente? ", "Nova Transferencia")
+                        if(nova_transferencia is False):
+                            self.goto_tela_apresentacao()
+                else:
+                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+            else:
+                Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+        except:
+            Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+
+
     def set_tela(self):
 
         cpf = self.tela_autenticacao.le_aut_cpf.text()
@@ -268,6 +296,8 @@ class Ui_MainHomePage(object):
 
         self.tela_saque.btn_saque_confirmar.clicked.connect(self.realizar_saque)
 
+        self.tela_transferencia.btn_tran_transferir.clicked.connect(self.realizar_transferencia)
+
     def limpar_campos(self):
 
         #tela autenticacao
@@ -286,7 +316,7 @@ class Ui_MainHomePage(object):
         self.tela_deposito.le_dep_valor.setText('')
         # tela transferencia
         self.tela_transferencia.le_tran_conta.setText('')
-        self.tela_transferencia.le_tran_agencia.setText('')
+        # self.tela_transferencia.le_tran_agencia.setText('')
         self.tela_transferencia.le_tran_valor_transferencia.setText('')
         # tela extrato
 

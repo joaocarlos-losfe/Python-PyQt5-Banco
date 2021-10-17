@@ -70,7 +70,7 @@ class Conta():
         else:
             self.sacar(valor)
             self._definir_historico(f"transferencia realizada para a conta {conta_destino._numero_conta}")
-            self._definir_historico(f"você recebeu uma transferencia de {self._titular.nome}. no valor de {valor}")
+            conta_destino._definir_historico(f"você recebeu uma transferencia de {self._titular.nome}. no valor de {valor}")
             conta_destino.depositar(valor)
             return True
 
