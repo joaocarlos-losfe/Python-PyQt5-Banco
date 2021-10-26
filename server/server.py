@@ -95,18 +95,20 @@ class Server:
             dados_cliente = conexao.recv(1024)
             dados_cliente = dados_cliente.decode()
             
-            print(f"🗨️: {dados_cliente}")
-            servidor.operacoes(dados_cliente)
+            if dados_cliente != "~desconectar~":
 
-            mensagem_servidor = str("✔️")
-            conexao.send(mensagem_servidor.encode())
+                print(f"🗨️: {dados_cliente}")
+                servidor.operacoes(dados_cliente)
 
-            print("⚠️Cliente desconectou\nAguardando nova conexao...")
-            conexao, cliente = servidor_socket.accept()
-            print(f"conectado...")
-                
-            
-        print("conexao encerrada")
-        servidor_socket.close()
+                mensagem_servidor = str("✔️")
+                conexao.send(mensagem_servidor.encode())
+
+                print("⚠️Cliente desconectou\nAguardando nova conexao...")
+                conexao, cliente = servidor_socket.accept()
+                print(f"conectado...")
+            else:
+                print("conexao encerrada")
+                servidor_socket.close()
+                break;
 
 Server.start()
