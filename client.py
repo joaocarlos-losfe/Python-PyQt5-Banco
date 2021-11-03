@@ -27,9 +27,8 @@ class Client:
             cliente_socket.close()
             print("dados enviados")
             print("conexao encerrada...")
+
+            return mensagem_servidor
                 
         except:
             print("servidor nao esta em execucao...")
-
-
-Client.enviar_dados("cadastro/joao/sousa/111/333")

@@ -25,6 +25,8 @@ from Modelos.contas import Contas
 from Modelos.conta import Conta
 from Modelos.cliente import Cliente
 
+from client import Client
+
 class Ui_MainHomePage(object):
 
     def __init__(self):
@@ -148,11 +150,13 @@ class Ui_MainHomePage(object):
         if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
             Dialogs.alert_mensage('⚠ Algun(s) campo(s) estão vazio(s) ', "ERRO")
         else:
-            cliente = Cliente(nome, sobre_nome, cpf)
-            conta = Conta(cliente, senha)
-            if self.contas.salvar_conta(conta):
+            
+            server_response = Client.enviar_dados("cadastro/"+nome+"/"+sobre_nome+"/"+cpf+"/"+senha)
+            server_response = server_response.split('/')
+    
+            if server_response[0] == "True":
                 Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
-                Dialogs.alert_mensage(f"✅ Número da sua conta é: {conta.numero}", "OK")
+                Dialogs.alert_mensage(f"✅ Número da sua conta é: {server_response[1]}", "OK")
             else:
                 Dialogs.alert_mensage('⚠ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
 
