@@ -34,7 +34,7 @@ class Ui_MainHomePage(object):
         self.tela_index = 0
         self.contas = Contas()
         self._tempConta = None
-
+        self._cpf = None
         self.show_password_flag = True
 
         #------clientes teste
@@ -158,39 +158,27 @@ class Ui_MainHomePage(object):
             self.goto_tela_apresentacao()
 
     #ao clicar no botão "sacar" da tela de saque
-    def realizar_deposito(self):
-        if self._tempConta is not None:
-            if self.tela_deposito.le_dep_valor.text() != '':
-                try:
-                    valor_deposito = float(self.tela_deposito.le_dep_valor.text())
-
-                    self._tempConta.depositar(valor_deposito)
-                    Dialogs.alert_mensage("✔ Deposito realizado com sucesso", "OK")
-                    novo_deposito = Dialogs.confirmation_mensage("Deseja relizar outro deposito ? ", "Novo deposito")
-                    if novo_deposito is False:
-                        self.goto_tela_apresentacao()
-
-                except:
-                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
-            else:
-                Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
 
     def realizar_saque(self):
 
-        if self._tempConta is not None:
+        if self._cpf is not None:
+
             if self.tela_saque.le_saque_valor.text() != '':
                 try:
                     valor_saque = float(self.tela_saque.le_saque_valor.text())
-                    sacou = self._tempConta.sacar(valor_saque)
+                    sacou = Client.enviar_dados("saque/"+self._cpf+"/"+str(valor_saque))
 
-                    if sacou:
-                        Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
+                    print(f"sacou ? {sacou}")
+
+                    if sacou != "False":
+                        sacou = sacou.split('/')
+                        Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {sacou[1]}", "OK")
                         novo_saque = Dialogs.confirmation_mensage("Deseja relizar outro saque ? ", "Novo Saque")
 
                         if novo_saque is False:
                             self.goto_tela_apresentacao()
                     else:
-                        Dialogs.alert_mensage(f"⚠ Saque não realizado! Por favor, confira o valor informado. Saldo disponivel na conta: R$ {self._tempConta.saldo}", "ERRO")
+                        Dialogs.alert_mensage(f"⚠ Saque não realizado! Por favor, confira o valor informado.", "ERRO")
                         novo_saque = Dialogs.confirmation_mensage("Deseja tentar novamente com um novo valor ? ", "Novo Saque")
 
                         if novo_saque is False:
@@ -227,42 +215,55 @@ class Ui_MainHomePage(object):
         except:
             Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
 
+    def realizar_deposito(self):
+        if self._cpf is not None:
+            if self.tela_deposito.le_dep_valor.text() != '':
+                try:
+                    valor_deposito = float(self.tela_deposito.le_dep_valor.text())
+
+                    depositou = Client.enviar_dados("deposito/"+self._cpf+"/"+str(valor_deposito))
+                    
+                    if depositou == "True":
+                        Dialogs.alert_mensage("✔ Deposito realizado com sucesso", "OK")
+                        novo_deposito = Dialogs.confirmation_mensage("Deseja relizar outro deposito ? ", "Novo deposito")
+                        if novo_deposito is False:
+                            self.goto_tela_apresentacao()
+
+                except:
+                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+            else:
+                Dialogs.alert_mensage("⚠ Campo de saldo vazio", "ERRO")
 
     def set_tela(self):
 
         cpf = self.tela_autenticacao.le_aut_cpf.text()
         senha = self.tela_autenticacao.le_aut_senha.text()
-
         server_response = Client.enviar_dados("obter_usuario/"+cpf+"/"+senha)
 
-        if server_response is not "False" or server_response is not None:
-            
-            server_response = server_response.split('/')
+        if server_response != "False":
+            self._cpf = cpf
 
-            try:
-            
-                if self.tela_index == 3:
-                    self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]} ")
-                    self.stack_telas.setCurrentIndex(3)
+            if self.tela_index == 3:
+                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {server_response} ")
+                self.stack_telas.setCurrentIndex(3)
 
-                elif self.tela_index == 4:
-                    self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
-                    self.stack_telas.setCurrentIndex(4)
+            elif self.tela_index == 4:
+                self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {server_response}")
+                self.stack_telas.setCurrentIndex(4)
 
-                elif self.tela_index == 5:
-                    self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
-                    self.stack_telas.setCurrentIndex(5)
+            elif self.tela_index == 5:
+                self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {server_response}")
+                self.stack_telas.setCurrentIndex(5)
 
-                elif self.tela_index == 6:
-                    self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
-                    for historico in self._tempConta._historico.historico_transacoes:
-                        self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
-                        self.stack_telas.setCurrentIndex(6)
+            elif self.tela_index == 6:
+                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response}")
+                for historico in self._tempConta._historico.historico_transacoes:
+                    self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
+                    self.stack_telas.setCurrentIndex(6)
 
-                elif self.tela_index == 7:
+            elif self.tela_index == 7:
                     pass
-            except:
-                Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
+            
 
             self.limpar_campos()
         else:
@@ -329,6 +330,7 @@ class Ui_MainHomePage(object):
         self.tela_index = 0
         self._tempConta = None
         self.stack_telas.setCurrentIndex(0)
+        self._cpf = None
         self.reset_botoes_acoes()
         self.limpar_campos()
         self.tela_extrato.lw_extrato.clear()

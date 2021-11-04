@@ -21,7 +21,7 @@ class OperacoesServidor:
         conta = self.contas.get_conta_cpf(cpf)
 
         if conta is not None and conta.senha == senha:
-            return conta.titular.nome+"/"+conta.titular.sobre_node
+            return conta.titular.nome+" "+conta.titular.sobre_node
         
         else:
             return "False"
@@ -39,17 +39,31 @@ class OperacoesServidor:
         return "False"
 
         
-    def realizar_saque(self):
-        pass
+    def realizar_saque(self, cpf, valor):
+        conta = self.contas.get_conta_cpf(cpf)
+
+        if conta is not None:
+            if conta.sacar(float(valor)):
+                return "True/"+str(conta.saldo)
+        
+        return "False"
+
 
     def realizar_transferencia(self):
         pass
+
+    def realizar_deposito(self, cpf, valor):
+        conta = self.contas.get_conta_cpf(cpf)
+
+        if conta is not None:
+            conta.depositar(float(valor))
+            return "True"
+        
+        return "False"
             
     def carregar_extrato(self):
         pass
 
-    def realizar_deposito(self):
-        pass
 
     def operacoes(self, informacoes: str):
 
@@ -64,13 +78,13 @@ class OperacoesServidor:
             return self.obter_usuario(informacoes[1], informacoes[2])
 
         elif informacoes[0] == "saque":
-            sucesso = self.realizar_saque()
+            return self.realizar_saque(informacoes[1], informacoes[2])
 
         elif informacoes[0] == "transferencia":
             sucesso = self.realizar_transferencia()
 
         elif informacoes[0] == "deposito":
-            sucesso = self.realizar_deposito()
+            return self.realizar_deposito(informacoes[1], informacoes[2])
         
         elif informacoes[0] == "extrato":
             sucesso = self.carregar_extrato()
