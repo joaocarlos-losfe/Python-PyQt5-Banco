@@ -7,6 +7,25 @@ class OperacoesServidor:
 
     def __init__(self):
         self.contas = Contas()
+
+        cliente1 = Cliente("joao", "de sousa", "111")
+        conta1 = Conta(cliente1, "111")
+        conta1.depositar(200)
+        self.contas.salvar_conta(conta1)
+
+        cliente2 = Cliente("vitor", "santos de lima", "222")
+        conta2 = Conta(cliente2, "222")
+        self.contas.salvar_conta(conta2)
+    
+    def obter_usuario(self, cpf, senha):
+        conta = self.contas.get_conta_cpf(cpf)
+
+        if conta is not None and conta.senha == senha:
+            return conta.titular.nome+"/"+conta.titular.sobre_node
+        
+        else:
+            return "False"
+
     
     def realizar_cadastro(self, nome, sobre_nome,cpf, senha):
         
@@ -40,6 +59,9 @@ class OperacoesServidor:
 
         if informacoes[0] == "cadastro":
             return self.realizar_cadastro(informacoes[1], informacoes[2], informacoes[3], informacoes[4])
+        
+        if informacoes[0] == "obter_usuario":
+            return self.obter_usuario(informacoes[1], informacoes[2])
 
         elif informacoes[0] == "saque":
             sucesso = self.realizar_saque()

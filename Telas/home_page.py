@@ -34,17 +34,11 @@ class Ui_MainHomePage(object):
         self.tela_index = 0
         self.contas = Contas()
         self._tempConta = None
+
         self.show_password_flag = True
 
         #------clientes teste
-        cliente1 = Cliente("joao", "de sousa", "111")
-        conta1 = Conta(cliente1, "111")
-        conta1.depositar(200)
-        self.contas.salvar_conta(conta1)
-
-        cliente2 = Cliente("vitor", "santos de lima", "222")
-        conta2 = Conta(cliente2, "222")
-        self.contas.salvar_conta(conta2)
+        
 
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -239,31 +233,36 @@ class Ui_MainHomePage(object):
         cpf = self.tela_autenticacao.le_aut_cpf.text()
         senha = self.tela_autenticacao.le_aut_senha.text()
 
-        self._tempConta = self.contas.get_conta_cpf(cpf)
+        server_response = Client.enviar_dados("obter_usuario/"+cpf+"/"+senha)
 
-        if self._tempConta is not None and senha == self._tempConta.senha:
+        if server_response is not "False" or server_response is not None:
+            
+            server_response = server_response.split('/')
 
-            if self.tela_index == 3:
-                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                self.stack_telas.setCurrentIndex(3)
+            try:
+            
+                if self.tela_index == 3:
+                    self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]} ")
+                    self.stack_telas.setCurrentIndex(3)
 
-            elif self.tela_index == 4:
-                self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                self.stack_telas.setCurrentIndex(4)
+                elif self.tela_index == 4:
+                    self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
+                    self.stack_telas.setCurrentIndex(4)
 
-            elif self.tela_index == 5:
-                self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                self.stack_telas.setCurrentIndex(5)
+                elif self.tela_index == 5:
+                    self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
+                    self.stack_telas.setCurrentIndex(5)
 
-            elif self.tela_index == 6:
-                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {self._tempConta.titular.nome} {self._tempConta.titular.sobre_node}")
-                for historico in self._tempConta._historico.historico_transacoes:
-                    self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
+                elif self.tela_index == 6:
+                    self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response[0]} {server_response[1]}")
+                    for historico in self._tempConta._historico.historico_transacoes:
+                        self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
+                        self.stack_telas.setCurrentIndex(6)
 
-                self.stack_telas.setCurrentIndex(6)
-
-            elif self.tela_index == 7:
-                pass
+                elif self.tela_index == 7:
+                    pass
+            except:
+                Dialogs.alert_mensage("⚠️Usuario ou senha invalidos", "ERRO")
 
             self.limpar_campos()
         else:
