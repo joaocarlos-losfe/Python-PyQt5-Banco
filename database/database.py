@@ -7,7 +7,12 @@ cursor = conexao.cursor()
 
 cursor.execute(Query.create_table_client())
 for i in range(5):
-     cursor.execute(Query.query_save_date_cliente(),('111','Vitor','Santos','111'))
+     cursor.execute(Query.query_save_date_cliente())
+
+cursor.execute(query_get_cliente())
+
+for c in cursor:
+    print(c)
 
 conexao.commit()
 conexao.close()
