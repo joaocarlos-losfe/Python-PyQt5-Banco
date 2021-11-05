@@ -116,4 +116,4 @@ class Query:
         return  """
                     SELECT * FROM Historico WHERE numero_conta = ?
                 """
-    #
+    # FIM
