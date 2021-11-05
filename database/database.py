@@ -1,48 +1,29 @@
 import os
-import pathlib as p
 import mysql.connector as mysql
-from querys import Query
+from query import Query
+import hashlib
 
-from singleton import Singleton
+class Database:
 
-class Database(Query,metaclass = Singleton):
-    def __init__():
-        self._path_db = p.Path(__file__).parent.absolute()
-        self._path_db = os.path.join(self.path_db,"DB")
+    def __init__(self):
 
-        if not os.path.isfile(self.get_path_db):
-            conexao = mysql.connect(host = 'localhost',db = 'BancoReal',user = 'root', passwd = 'targout00')
-            cursor = conexao.cursor()
-            cursor.execute(super().create_table_client())
-            cursor.execute(super().create_table_conta())
-            cursor.execute(super().create_table_historico())
-
-    @property
-    def get_path_db():
-        return self._path_db + "local.db"
-
-    def get_cliente(self,cpf):
-        conexao = mysql.connect(host = 'localhost',db = 'BancoReal',user = 'root', passwd = 'targout00')
-        cursor = conexao.cursor()
-        cursor.execute(super().query_get_cliente(),cpf)
-        data = exec.fetchall()
+        self.conexao = mysql.connect(host = 'localhost', db = 'BancoReal',user = 'root', passwd = 'sousafej2021')
+        self.cursor = self.conexao.cursor()
+        self.inicializar_db()
 
 
+    def inicializar_db(self):
+        self.cursor.execute(Query.create_table_client())
+        self.cursor.execute(Query.create_table_conta())
+        self.cursor.execute(Query.create_table_historico())
+
+    def adicionar_conta(self, cpf:str, nome:str, sobre_nome:str, numero:str, saldo:float, senha:str, limite: float):
+
+        #self.cursor.execute(Query.query_save_cliente(), (cpf, nome, sobre_nome))
+        self.cursor.execute(Query.query_save_date_conta(), (numero, cpf, saldo, senha, limite))
+        self.conexao.commit()
 
 
+db = Database()
 
-
-        '''
-q = Query()
-
-cursor.execute(q.create_table_client())
-for i in range(5):
-     cursor.execute(q.query_save_date_cliente())
-
-cursor.execute(q.query_get_cliente())
-
-for c in cursor:
-    print(c)
-conexao.commit()
-conexao.close()
-'''
+db.adicionar_conta("111", "Joao Carlos", "de Sousa", "111 111 111", 200.50, "arrozComFeijao", 1000)

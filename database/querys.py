@@ -2,58 +2,61 @@ class Query:
 
     # MÉTODOS DE CRIAÇÃO DAS TABELAS
 
+
     @staticmethod
     def create_table_client():
         return """
-                CREATE TABLE IF NOT EXISTS Cliente
+                CREATE TABLE IF NOT EXISTS Clientes
                 (
                     CPF VARCHAR(14) NOT NULL PRIMARY KEY,
                     Nome VARCHAR(20) NOT NULL,
-                    Sobrenome VARCHAR(50) NOT NULL,
-                    Senha VARCHAR(8) NOT NULL
+                    Sobrenome VARCHAR(50) NOT NULL
                 );
                 """
 
     @staticmethod
     def create_table_conta():
         return """
-            CREATE TABLE IF NOT EXISTS Conta
+            CREATE TABLE IF NOT EXISTS Contas
             (
                 numero VARCHAR(15) NOT NULL PRIMARY KEY,
                 cpf_titular VARCHAR(8) NOT NULL,
                 saldo FLOAT NOT NULL,
-                senha VARCHAR(8) NOT NULL,
-                limite VARCHAR(8) NOT NULL
+                senha TEXT NOT NULL,
+                limite FLOAT NOT NULL,
+                FOREIGN KEY (cpf_titular) REFERENCES Clientes(CPF)
             );
         """
     @staticmethod
     def create_table_historico():
         return """
-            CREATE TABLE IF NOT EXISTS Historico
+            CREATE TABLE IF NOT EXISTS Historicos
             (
-                historico TEXT NOT NULL PRIMARY KEY,
-                numero_conta VARCHAR(15) NOT NULL FOREING KEY
+                ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                historico TEXT NOT NULL,
+                numero_conta VARCHAR(15) NOT NULL,
+                FOREIGN KEY (numero_conta) REFERENCES Contas(numero)
             );
         """
 
     # MÉTODOS DE SALVAMENTO DE DADOS
 
     @staticmethod
-    def query_save_date_cliente():
+    def query_save_cliente():
         return  """
-                INSERT INTO Cliente(CPF,Nome,Sobrenome,Senha)
-                VALUES (?,?,?,?)
+                INSERT INTO Clientes(CPF,Nome,Sobrenome)
+                VALUES (%s,%s,%s)
                 """
     @staticmethod
     def query_save_date_conta():
         return  """
-                INSERT INTO Conta(numero,cpf_titular,saldo,senha,limite)
-                VALUES (?,?,?,?,?)
+                INSERT INTO Contas(numero, cpf_titular, saldo, senha, limite)
+                VALUES (%s,%s,%s,MD5(%s),%s)
                 """
     @staticmethod
     def query_save_date_historico():
         return  """
-                INSERT INTO Historico(historico,numero_conta)
+                INSERT INTO Historicos(historico,numero_conta)
                 VALUES (?,?)
                 """
 
