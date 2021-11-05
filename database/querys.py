@@ -29,9 +29,35 @@ class Query:
     @staticmethod
     def create_table_historico():
         return """
-            CREATE TABLE IF NOT EXISTS Conta
+            CREATE TABLE IF NOT EXISTS Historico
             (
                 historico TEXT NOT NULL PRIMARY KEY,
                 numero_conta VARCHAR(15) NOT NULL FOREING KEY
             );
         """
+
+    # MÉTODOS DE SALVAMENTO DE DADOS
+
+    @staticmethod
+    def query_save_date_cliente():
+        return  """
+                INSERT INTO Cliente(CPF,Nome,Sobrenome,Senha)
+                VALUES (?,?,?,?)
+                """
+    @staticmethod
+    def query_save_date_conta():
+        return  """
+                INSERT INTO Conta(numero,cpf_titular,saldo,senha,limite)
+                VALUES (?,?,?,?,?)
+                """
+    @staticmethod
+    def query_save_date_historico():
+        return  """
+                INSERT INTO Historico(historico,numero_conta)
+                VALUES (?,?)
+                """
+
+
+    # MÉTODOS DE REMOÇÃO DE DADOS
+
+    # MÉTODOS DE ATUALIZAÇÃO DE DADOS
