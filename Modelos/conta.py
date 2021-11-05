@@ -14,14 +14,14 @@ class Conta():
     # titular é do tipo Cliente()
 
     def __init__(self, titular:Cliente, senha_acesso:str, limite = 10000):
-        self._numero_conta = f"{randint(1000, 9999)} " + f"{randint(1000, 9999)} " + f"{randint(1000, 9999)} " + f"{randint(1000, 9999)}"
+        self._numero_conta = f"{randint(1000, 9999)}" + f" {randint(1000, 9999)}" + f" {randint(1000, 9999)}"
         self._titular = titular
         self._senha_acesso = senha_acesso
         self._saldo = 0.0
         self._limite = limite
         self._historico = Historico()
         Conta._contador_contas += 1
-
+     
         self._definir_historico(f"conta aberta dia {self._historico.data_abertura}. Numero: {self._numero_conta}. Limite: {self._limite} ")
 
     @property
@@ -43,6 +43,7 @@ class Conta():
     @property
     def limite(self):
         return self._limite
+
 
     def exibir_historico(self):
         self._historico.exibir_historico()

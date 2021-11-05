@@ -2,7 +2,6 @@ class Query:
 
     # MÉTODOS DE CRIAÇÃO DAS TABELAS
 
-
     @staticmethod
     def create_table_client():
         return """

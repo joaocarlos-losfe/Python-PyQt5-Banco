@@ -3,10 +3,13 @@ from Modelos.contas import Contas
 from Modelos.cliente import Cliente
 from Modelos.conta import Conta
 
+from database import Database
+
 class OperacoesServidor:
 
     def __init__(self):
         self.contas = Contas()
+        self.database = Database()
 
         cliente1 = Cliente("joao", "de sousa", "111")
         conta1 = Conta(cliente1, "111")
@@ -32,7 +35,7 @@ class OperacoesServidor:
         cliente = Cliente(nome, sobre_nome, cpf)
         conta = Conta(cliente, senha)
 
-        if self.contas.salvar_conta(conta):
+        if self.database.adicionar_conta(conta) == "True":
             print(f"conta salva > {conta.numero}")
             return "True/"+conta.numero
 
