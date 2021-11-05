@@ -57,7 +57,45 @@ class Query:
                 VALUES (?,?)
                 """
 
+    # MÉTODOS DE ATUALIZAÇÃO DE DADOS
+
+    @staticmethod
+    def query_update_cliente():
+        return  """
+                UPDATE Cliente
+                SET Nome = ?,Sobrenome = ?,Senha = ?
+                WHERE CPF = ?;
+                """
+
+    @staticmethod
+    def query_update_conta():
+        return  """
+                UPDATE Conta
+                SET cpf_titular = ?,saldo = ?,senha = ?,limite = ?
+                WHERE numero = ?;
+                """
+    @staticmethod
+    def query_update_historico():
+        return  """
+                UPDATE Historico
+                SET historico = ?
+                WHERE numero_conta = ?;
+                """
 
     # MÉTODOS DE REMOÇÃO DE DADOS
 
-    # MÉTODOS DE ATUALIZAÇÃO DE DADOS
+    @staticmethod
+    def query_delete_cliente():
+        return  """
+                DELETE FROM Cliente WHERE CPF = ?
+                """
+    @staticmethod
+    def query_delete_conta():
+        return  """
+                DELETE FROM Conta WHERE numero = ?
+                """
+    @staticmethod
+    def query_delete_historico():
+        return  """
+                DELETE FROM Historico WHERE numero_conta = ?
+                """
