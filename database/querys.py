@@ -57,7 +57,7 @@ class Query:
     def query_save_date_historico():
         return  """
                 INSERT INTO Historicos(historico,numero_conta)
-                VALUES (?,?)
+                VALUES (%s,%s)
                 """
 
     # MÉTODOS DE ATUALIZAÇÃO DE DADOS
@@ -66,23 +66,23 @@ class Query:
     def query_update_cliente():
         return  """
                 UPDATE Cliente
-                SET Nome = ?,Sobrenome = ?,Senha = ?
-                WHERE CPF = ?;
+                SET Nome = %s,Sobrenome = %s,Senha = %s
+                WHERE CPF = %s;
                 """
 
     @staticmethod
     def query_update_conta():
         return  """
                 UPDATE Conta
-                SET cpf_titular = ?,saldo = ?,senha = ?,limite = ?
-                WHERE numero = ?;
+                SET cpf_titular = %s,saldo = %s,senha = %s,limite = %s
+                WHERE numero = %s;
                 """
     @staticmethod
     def query_update_historico():
         return  """
                 UPDATE Historico
-                SET historico = ?
-                WHERE numero_conta = ?;
+                SET historico = %s
+                WHERE numero_conta = %s;
                 """
 
     # MÉTODOS DE REMOÇÃO DE DADOS
@@ -90,33 +90,33 @@ class Query:
     @staticmethod
     def query_delete_cliente():
         return  """
-                DELETE FROM Cliente WHERE CPF = ?
+                DELETE FROM Cliente WHERE CPF = %s
                 """
     @staticmethod
     def query_delete_conta():
         return  """
-                DELETE FROM Conta WHERE numero = ?
+                DELETE FROM Conta WHERE numero = %s
                 """
     @staticmethod
     def query_delete_historico():
         return  """
-                DELETE FROM Historico WHERE numero_conta = ?
+                DELETE FROM Historico WHERE numero_conta = %s
                 """
     # MÉTODOS DE CAPTURAS DE DADOS
 
     @staticmethod
     def query_get_cliente():
         return  """
-                    SELECT * FROM Cliente WHERE CPF = ?
+                    SELECT * FROM Cliente WHERE CPF = %s
                 """
     @staticmethod
     def query_get_conta():
         return  """
-                    SELECT * FROM Conta WHERE numero = ?
+                    SELECT * FROM Conta WHERE numero = %s
                 """
     @staticmethod
     def query_get_historico():
         return  """
-                    SELECT * FROM Historico WHERE numero_conta = ?
+                    SELECT * FROM Historico WHERE numero_conta = %s
                 """
     # FIM
