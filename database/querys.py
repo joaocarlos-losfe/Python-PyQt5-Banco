@@ -99,3 +99,21 @@ class Query:
         return  """
                 DELETE FROM Historico WHERE numero_conta = ?
                 """
+    # MÉTODOS DE CAPTURAS DE DADOS
+
+    @staticmethod
+    def query_get_cliente():
+        return  """
+                    SELECT * FROM Cliente WHERE CPF = ?
+                """
+    @staticmethod
+    def query_get_conta():
+        return  """
+                    SELECT * FROM Conta WHERE numero = ?
+                """
+    @staticmethod
+    def query_get_historico():
+        return  """
+                    SELECT * FROM Historico WHERE numero_conta = ?
+                """
+    #
