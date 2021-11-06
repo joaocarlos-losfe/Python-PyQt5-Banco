@@ -5,7 +5,6 @@ import mysql.connector as mysql
 from querys import Query
 from Modelos.conta import Conta
 
-
 class Database:
 
     def __init__(self):
