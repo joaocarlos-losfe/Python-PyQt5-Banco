@@ -33,8 +33,8 @@ class Query:
             (
                 ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 historico TEXT NOT NULL,
-                numero_conta VARCHAR(15) NOT NULL,
-                FOREIGN KEY (numero_conta) REFERENCES Contas(numero)
+                cpf_titular VARCHAR(15) NOT NULL,
+                FOREIGN KEY (cpf_titular) REFERENCES Clientes(CPF)
             );
         """
 
@@ -55,8 +55,7 @@ class Query:
     @staticmethod
     def query_save_date_historico():
         return  """
-                INSERT INTO Historicos(historico,numero_conta)
-                VALUES (%s,%s)
+                INSERT INTO Historicos(historico, cpf_titular) VALUES (%s,%s);
                 """
 
     # MÉTODOS DE ATUALIZAÇÃO DE DADOS

@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 from Modelos.contas import Contas
 from Modelos.cliente import Cliente
@@ -33,8 +34,10 @@ class OperacoesServidor:
         cliente = Cliente(nome, sobre_nome, cpf)
         conta = Conta(cliente, senha)
 
+
         if self.database.adicionar_conta(conta) == "True":
             print(f"conta salva > {conta.numero}")
+            self.database.set_historico(f"conta aberta dia {conta._historico.data_abertura} Numero: {conta._numero_conta}. Limite: {conta._limite}", cpf)
             return "True/"+conta.numero
 
         return "False"
@@ -46,9 +49,11 @@ class OperacoesServidor:
         if type(conta) == tuple:
 
             if float(valor) > float(conta[2]):
+                self.database.set_historico(f"Tentativa de saque dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
                 return "False"
             else:
                 self.database.atualizar_saldo(cpf, (float(conta[2]) - float(valor)))
+                self.database.set_historico(f"Saque realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
                 return "True"
         
         return "False"
@@ -57,15 +62,18 @@ class OperacoesServidor:
     def realizar_transferencia(self):
         pass
 
-    def realizar_deposito(self, cpf, valor):
-        conta = self.contas.get_conta_cpf(cpf)
 
-        if conta is not None:
-            conta.depositar(float(valor))
+    def realizar_deposito(self, cpf, valor):
+        conta = self.database.get_conta(cpf)
+        if type(conta) == tuple:
+            self.database.atualizar_saldo(cpf, (float(conta[2]) + float(valor)))
+            self.database.set_historico(f"Deposito realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
+
             return "True"
         
         return "False"
-            
+
+        
     def carregar_extrato(self):
         pass
 

@@ -44,6 +44,7 @@ class Database:
         self.cursor.execute(Query.query_get_usuario(), (cpf, senha,))
         dados = self.cursor.fetchone()
         if type(dados) == tuple:
+            self.conexao.commit()
             return str(dados[0])
         
         else:
@@ -54,11 +55,15 @@ class Database:
         dados = self.cursor.fetchone()
         if type(dados) == tuple:
             return dados[0]+"/"+dados[1]
-    
         return False
+    
+    def set_historico(self, text:str, cpf:str):
+        self.cursor.execute(Query.query_save_date_historico(), (text,cpf,))
+        self.conexao.commit()
 
 db = Database()
 
 #db.get_usuario(777, "arrozcomfeijao")
 
-print(db.get_cliente("111"))
+#print(db.get_cliente("111"))
+

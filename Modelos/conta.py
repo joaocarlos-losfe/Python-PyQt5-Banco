@@ -22,7 +22,7 @@ class Conta():
         self._historico = Historico()
         Conta._contador_contas += 1
      
-        self._definir_historico(f"conta aberta dia {self._historico.data_abertura}. Numero: {self._numero_conta}. Limite: {self._limite} ")
+        self._definir_historico(f"conta aberta dia {self._historico.data_abertura}. Numero: {self._numero_conta}. Limite: {self._limite}")
 
     @property
     def saldo(self):
