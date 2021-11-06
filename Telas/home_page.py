@@ -38,7 +38,7 @@ class Ui_MainHomePage(object):
         self.show_password_flag = True
 
         #------clientes teste
-        
+
 
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -144,10 +144,10 @@ class Ui_MainHomePage(object):
         if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
             Dialogs.alert_mensage('⚠ Algun(s) campo(s) estão vazio(s) ', "ERRO")
         else:
-            
+
             server_response = Client.enviar_dados("cadastro/"+nome+"/"+sobre_nome+"/"+cpf+"/"+senha)
             server_response = server_response.split('/')
-    
+
             if server_response[0] == "True":
                 Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
                 Dialogs.alert_mensage(f"✅ Número da sua conta é: {server_response[1]}", "OK")
@@ -194,20 +194,12 @@ class Ui_MainHomePage(object):
             valor = float(self.tela_transferencia.le_tran_valor_transferencia.text())
             if(numero_conta != ''):
                 if(valor > 0):
-                    conta_destino = self.contas.get_conta_numero(numero_conta)
-                    if(conta_destino != None):
-                        if(self._tempConta.transfere(conta_destino,valor) is True):
-                            Dialogs.alert_mensage(f"✅ Transferencia realizada com sucesso. Saldo restante na conta: R$ {self._tempConta.saldo}", "OK")
-                            nova_transferencia = Dialogs.confirmation_mensage("Deseja relizar outra transferencia? ", "Nova Transferencia")
-                            if(nova_transferencia is False):
-                                self.goto_tela_apresentacao()
-                        else:
-                             Dialogs.alert_mensage(f"⚠ Transferencia não realizada! Saldo insuficiente", "ERRO")
+                    server_response = Client.enviar_dados("transferencia/"+self._cpf+"/"+str(numero_conta)+"/"+str(valor))
+                    if(server_response == "True"):
+                        Dialogs.alert_mensage(" Transferencia realizada com sucesso!","OK")
                     else:
-                        Dialogs.alert_mensage(f"⚠ Transferencia não realizada! Conta destino não encontrada", "ERRO")
-                        nova_transferencia = Dialogs.confirmation_mensage("Deseja tentar novamente? ", "Nova Transferencia")
-                        if(nova_transferencia is False):
-                            self.goto_tela_apresentacao()
+                        print(server_response)
+                        Dialogs.alert_mensage("⚠ Houve um erro na transferencia - verifique suas informações", "ERRO")
                 else:
                     Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
             else:
@@ -222,7 +214,7 @@ class Ui_MainHomePage(object):
                     valor_deposito = float(self.tela_deposito.le_dep_valor.text())
 
                     depositou = Client.enviar_dados("deposito/"+self._cpf+"/"+str(valor_deposito))
-                    
+
                     if depositou == "True":
                         Dialogs.alert_mensage("✔ Deposito realizado com sucesso", "OK")
                         novo_deposito = Dialogs.confirmation_mensage("Deseja relizar outro deposito ? ", "Novo deposito")
@@ -265,14 +257,14 @@ class Ui_MainHomePage(object):
 
                 if historico != "False":
                     historico = historico.split('/')
-                    
+
                     for h in historico:
                         self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(h))
                         self.stack_telas.setCurrentIndex(6)
 
             elif self.tela_index == 7:
                     pass
-            
+
 
             self.limpar_campos()
         else:

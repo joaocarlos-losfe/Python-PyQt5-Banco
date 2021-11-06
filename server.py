@@ -21,17 +21,17 @@ class OperacoesServidor:
         cliente2 = Cliente("vitor", "santos de lima", "222")
         conta2 = Conta(cliente2, "222")
         self.contas.salvar_conta(conta2)
-    
+
     def obter_usuario(self, cpf, senha):
         dado = self.database.get_usuario(cpf, senha)
-        
+
         if dado != False:
             return dado+"/"+self.database.get_cliente(cpf)
 
         return "False"
-    
+
     def realizar_cadastro(self, nome, sobre_nome,cpf, senha):
-        
+
         cliente = Cliente(nome, sobre_nome, cpf)
         conta = Conta(cliente, senha)
 
@@ -46,7 +46,7 @@ class OperacoesServidor:
     def realizar_saque(self, cpf, valor):
 
         conta = self.database.get_conta(cpf)
-        
+
         if type(conta) == tuple:
 
             if float(valor) > float(conta[2]):
@@ -56,12 +56,30 @@ class OperacoesServidor:
                 self.database.atualizar_saldo(cpf, (float(conta[2]) - float(valor)))
                 self.database.set_historico(f"Saque realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
                 return "True"
-        
+
         return "False"
 
 
-    def realizar_transferencia(self):
-        pass
+    def realizar_transferencia(self,cpf_origem,conta_destino,valor):
+
+        conta_origem = self.database.get_conta(cpf_origem)
+        conta_destino = self.database.get_numero_conta(conta_destino)
+
+        if type(conta_origem) == tuple:
+
+            if float(valor) > float(conta_origem[2]):
+                self.database.set_historico(f"Tentativa de transferencia dia {datetime.today()} no valor de R$ {float(valor)}", cpf_origem)
+                return "False"
+            elif(conta_destino == None):
+                return "False"
+            else:
+                self.database.atualizar_saldo(cpf_origem,(float(conta_origem[2]) - float(valor)))
+                self.database.set_historico(f"Transferencia realizada dia {datetime.today()} no valor de R$ {float(valor)}", cpf_origem)
+                self.database.atualizar_saldo(conta_destino[1],(float(conta_destino[2]) + float(valor)))
+                self.database.set_historico(f"Transferencia recebida dia {datetime.today()} no valor de R$ {float(valor)} de {cpf_origem}", conta_destino[1])
+                return "True"
+
+        return "False"
 
 
     def realizar_deposito(self, cpf, valor):
@@ -71,29 +89,29 @@ class OperacoesServidor:
             self.database.set_historico(f"Deposito realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
 
             return "True"
-        
+
         return "False"
 
-        
+
     def carregar_extrato(self, cpf):
-        
-        historico = self.database.get_historico(cpf) 
+
+        historico = self.database.get_historico(cpf)
 
         if historico != False:
             return historico
-        
+
         return "False"
 
 
     def operacoes(self, informacoes: str):
 
         informacoes = informacoes.split('/')
-        
+
         sucesso = "False"
 
         if informacoes[0] == "cadastro":
             return self.realizar_cadastro(informacoes[1], informacoes[2], informacoes[3], informacoes[4])
-        
+
         if informacoes[0] == "obter_usuario":
             return self.obter_usuario(informacoes[1], informacoes[2])
 
@@ -101,17 +119,18 @@ class OperacoesServidor:
             return self.realizar_saque(informacoes[1], informacoes[2])
 
         elif informacoes[0] == "transferencia":
-            return self.realizar_transferencia()
+            return self.realizar_transferencia(informacoes[1],informacoes[2],informacoes[3])
+            #cpf_origem,conta_destino,valor
 
         elif informacoes[0] == "deposito":
             return self.realizar_deposito(informacoes[1], informacoes[2])
-        
+
         elif informacoes[0] == "extrato":
             return self.carregar_extrato(informacoes[1])
-        
+
         else:
             print("informacoes[0] invalida")
-    
+
         return sucesso
 
 class Server:
@@ -140,13 +159,13 @@ class Server:
 
             dados_cliente = conexao.recv(1024)
             dados_cliente = dados_cliente.decode()
-            
+
             if dados_cliente != "~desconectar~":
 
                 print(f"🗨️: {dados_cliente}")
-            
+
                 mensagem_servidor = servidor.operacoes(dados_cliente)
-                
+
                 conexao.send(mensagem_servidor.encode())
 
                 print("⚠️Cliente desconectou\nAguardando nova conexao...")

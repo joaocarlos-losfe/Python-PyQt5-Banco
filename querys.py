@@ -67,24 +67,24 @@ class Query:
                 SET Nome = %s,Sobrenome = %s,Senha = %s
                 WHERE CPF = %s;
                 """
-    
+
     @staticmethod
     def query_atualizar_saldo():
         return  """
                 UPDATE Contas SET saldo = %s where cpf_titular = %s;
                 """
-    
+
     def query_get_usuario():
         return  """
                 SELECT cpf_titular FROM Contas where cpf_titular = %s AND senha = MD5(%s);
                 """
-    
+
     @staticmethod
     def query_get_cliente():
         return  """
                     SELECT Nome, Sobrenome FROM Clientes WHERE CPF = %s;
                 """
-    
+
     @staticmethod
     def query_update_conta():
         return  """
@@ -119,11 +119,16 @@ class Query:
                 """
     # MÉTODOS DE CAPTURAS DE DADOS
 
-    
+
     @staticmethod
     def query_get_conta():
         return  """
                     SELECT * FROM Contas WHERE cpf_titular = %s;
+                """
+    @staticmethod
+    def query_get_numero_conta():
+        return  """
+                    SELECT * FROM Contas WHERE numero = %s;
                 """
     @staticmethod
     def query_get_historico():
