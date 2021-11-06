@@ -21,14 +21,12 @@ class OperacoesServidor:
         self.contas.salvar_conta(conta2)
     
     def obter_usuario(self, cpf, senha):
-        conta = self.contas.get_conta_cpf(cpf)
-
-        if conta is not None and conta.senha == senha:
-            return conta.titular.nome+" "+conta.titular.sobre_node
+        dado = self.database.get_usuario(cpf, senha)
         
-        else:
-            return "False"
+        if dado != False:
+            return dado+"/"+self.database.get_cliente(cpf)
 
+        return "False"
     
     def realizar_cadastro(self, nome, sobre_nome,cpf, senha):
         
@@ -41,13 +39,17 @@ class OperacoesServidor:
 
         return "False"
 
-        
     def realizar_saque(self, cpf, valor):
-        conta = self.contas.get_conta_cpf(cpf)
 
-        if conta is not None:
-            if conta.sacar(float(valor)):
-                return "True/"+str(conta.saldo)
+        conta = self.database.get_conta(cpf)
+        
+        if type(conta) == tuple:
+
+            if float(valor) > float(conta[2]):
+                return "False"
+            else:
+                self.database.atualizar_saldo(cpf, (float(conta[2]) - float(valor)))
+                return "True"
         
         return "False"
 

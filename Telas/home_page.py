@@ -170,9 +170,9 @@ class Ui_MainHomePage(object):
 
                     print(f"sacou ? {sacou}")
 
-                    if sacou != "False":
+                    if sacou == "True":
                         sacou = sacou.split('/')
-                        Dialogs.alert_mensage(f"✅ Saque realizado com sucesso. Saldo restante na conta: R$ {sacou[1]}", "OK")
+                        Dialogs.alert_mensage(f"✅ Saque realizado com sucesso", "OK")
                         novo_saque = Dialogs.confirmation_mensage("Deseja relizar outro saque ? ", "Novo Saque")
 
                         if novo_saque is False:
@@ -241,22 +241,25 @@ class Ui_MainHomePage(object):
         server_response = Client.enviar_dados("obter_usuario/"+cpf+"/"+senha)
 
         if server_response != "False":
-            self._cpf = cpf
+            server_response = server_response.split('/')
+            self._cpf = server_response[0]
+
+            print(self._cpf)
 
             if self.tela_index == 3:
-                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {server_response} ")
+                self.tela_saque.lbl_saque_usuario.setText(f"Cliente: {server_response[1]} {server_response[2]} ")
                 self.stack_telas.setCurrentIndex(3)
 
             elif self.tela_index == 4:
-                self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {server_response}")
+                self.tela_transferencia.lbl_tran_usuario.setText(f"Cliente: {server_response[1]} {server_response[2]}")
                 self.stack_telas.setCurrentIndex(4)
 
             elif self.tela_index == 5:
-                self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {server_response}")
+                self.tela_deposito.lbl_dep_usuario.setText(f"Cliente: {server_response[1]} {server_response[2]}")
                 self.stack_telas.setCurrentIndex(5)
 
             elif self.tela_index == 6:
-                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response}")
+                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response[1]} {server_response[2]}")
                 for historico in self._tempConta._historico.historico_transacoes:
                     self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
                     self.stack_telas.setCurrentIndex(6)

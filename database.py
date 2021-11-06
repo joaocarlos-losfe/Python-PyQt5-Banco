@@ -1,5 +1,6 @@
 from logging import Logger
 import os
+from typing import List, Tuple
 import mysql.connector as mysql
 from querys import Query
 from Modelos.conta import Conta
@@ -30,3 +31,34 @@ class Database:
         except BaseException as e:
             Logger.error('Failed to do something: ' + str(e))
             return "False"
+    
+    def get_conta(self, cpf:str):
+        self.cursor.execute(Query.query_get_conta(), (cpf, ))
+        return self.cursor.fetchone()
+    
+    def atualizar_saldo(self, cpf:str, valor:float):
+        self.cursor.execute(Query.query_atualizar_saldo(), (valor, cpf,))
+        self.conexao.commit()
+    
+    def get_usuario(self, cpf, senha):
+        self.cursor.execute(Query.query_get_usuario(), (cpf, senha,))
+        dados = self.cursor.fetchone()
+        if type(dados) == tuple:
+            return str(dados[0])
+        
+        else:
+            return False
+    
+    def get_cliente(self, cpf:str):
+        self.cursor.execute(Query.query_get_cliente(), (cpf,))
+        dados = self.cursor.fetchone()
+        if type(dados) == tuple:
+            return dados[0]+"/"+dados[1]
+    
+        return False
+
+db = Database()
+
+#db.get_usuario(777, "arrozcomfeijao")
+
+print(db.get_cliente("111"))

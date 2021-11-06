@@ -68,12 +68,29 @@ class Query:
                 SET Nome = %s,Sobrenome = %s,Senha = %s
                 WHERE CPF = %s;
                 """
-
+    
+    @staticmethod
+    def query_atualizar_saldo():
+        return  """
+                UPDATE Contas SET saldo = %s where cpf_titular = %s;
+                """
+    
+    def query_get_usuario():
+        return  """
+                SELECT cpf_titular FROM Contas where cpf_titular = %s AND senha = MD5(%s);
+                """
+    
+    @staticmethod
+    def query_get_cliente():
+        return  """
+                    SELECT Nome, Sobrenome FROM Clientes WHERE CPF = %s;
+                """
+    
     @staticmethod
     def query_update_conta():
         return  """
-                UPDATE Conta
-                SET cpf_titular = %s,saldo = %s,senha = %s,limite = %s
+                UPDATE Contas
+                SET cpf_titular = %s, saldo = %s, senha = %s, limite = %s
                 WHERE numero = %s;
                 """
     @staticmethod
@@ -89,33 +106,29 @@ class Query:
     @staticmethod
     def query_delete_cliente():
         return  """
-                DELETE FROM Cliente WHERE CPF = %s
+                DELETE FROM Cliente WHERE CPF = %s;
                 """
     @staticmethod
     def query_delete_conta():
         return  """
-                DELETE FROM Conta WHERE numero = %s
+                DELETE FROM Conta WHERE numero = %s;
                 """
     @staticmethod
     def query_delete_historico():
         return  """
-                DELETE FROM Historico WHERE numero_conta = %s
+                DELETE FROM Historico WHERE numero_conta = %s;
                 """
     # MÉTODOS DE CAPTURAS DE DADOS
 
-    @staticmethod
-    def query_get_cliente():
-        return  """
-                    SELECT * FROM Cliente WHERE CPF = %s
-                """
+    
     @staticmethod
     def query_get_conta():
         return  """
-                    SELECT * FROM Conta WHERE numero = %s
+                    SELECT * FROM Contas WHERE cpf_titular = %s;
                 """
     @staticmethod
     def query_get_historico():
         return  """
-                    SELECT * FROM Historico WHERE numero_conta = %s
+                    SELECT * FROM Historicos WHERE numero_conta = %s;
                 """
     # FIM
