@@ -259,10 +259,16 @@ class Ui_MainHomePage(object):
                 self.stack_telas.setCurrentIndex(5)
 
             elif self.tela_index == 6:
-                self.tela_extrato.lbl_extr_usuario.setText(f"Cliente: {server_response[1]} {server_response[2]}")
-                for historico in self._tempConta._historico.historico_transacoes:
-                    self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(historico))
-                    self.stack_telas.setCurrentIndex(6)
+                self.tela_extrato.lbl_extr_usuario.setText(" ")
+
+                historico = Client.enviar_dados("extrato/"+self._cpf)
+
+                if historico != "False":
+                    historico = historico.split('/')
+                    
+                    for h in historico:
+                        self.tela_extrato.lw_extrato.addItem(self.tela_extrato.create_item(h))
+                        self.stack_telas.setCurrentIndex(6)
 
             elif self.tela_index == 7:
                     pass

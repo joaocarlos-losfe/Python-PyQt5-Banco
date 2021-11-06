@@ -128,6 +128,6 @@ class Query:
     @staticmethod
     def query_get_historico():
         return  """
-                    SELECT * FROM Historicos WHERE numero_conta = %s;
+                    SELECT historico FROM Historicos WHERE cpf_titular = %s;
                 """
     # FIM

@@ -3,6 +3,7 @@ import socket
 from Modelos.contas import Contas
 from Modelos.cliente import Cliente
 from Modelos.conta import Conta
+from Modelos.historico import Historico
 
 from database import Database
 
@@ -74,8 +75,14 @@ class OperacoesServidor:
         return "False"
 
         
-    def carregar_extrato(self):
-        pass
+    def carregar_extrato(self, cpf):
+        
+        historico = self.database.get_historico(cpf) 
+
+        if historico != False:
+            return historico
+        
+        return "False"
 
 
     def operacoes(self, informacoes: str):
@@ -94,13 +101,13 @@ class OperacoesServidor:
             return self.realizar_saque(informacoes[1], informacoes[2])
 
         elif informacoes[0] == "transferencia":
-            sucesso = self.realizar_transferencia()
+            return self.realizar_transferencia()
 
         elif informacoes[0] == "deposito":
             return self.realizar_deposito(informacoes[1], informacoes[2])
         
         elif informacoes[0] == "extrato":
-            sucesso = self.carregar_extrato()
+            return self.carregar_extrato(informacoes[1])
         
         else:
             print("informacoes[0] invalida")

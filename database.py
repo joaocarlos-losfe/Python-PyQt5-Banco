@@ -60,10 +60,27 @@ class Database:
     def set_historico(self, text:str, cpf:str):
         self.cursor.execute(Query.query_save_date_historico(), (text,cpf,))
         self.conexao.commit()
+    
+    def get_historico(self, cpf):
+        
+        historico = ""
 
-db = Database()
+        self.cursor.execute(Query.query_get_historico(), (cpf,))
+        dados = self.cursor.fetchall()
+
+        if len(dados)> 0:
+            for dado in dados:
+                historico += dado[0] + "/"
+            
+            return historico
+        
+        return False
+
+#db = Database()
 
 #db.get_usuario(777, "arrozcomfeijao")
 
 #print(db.get_cliente("111"))
+
+#db.get_historico("111")
 
