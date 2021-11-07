@@ -35,7 +35,6 @@ class OperacoesServidor:
         cliente = Cliente(nome, sobre_nome, cpf)
         conta = Conta(cliente, senha)
 
-
         if self.database.adicionar_conta(conta) == "True":
             print(f"conta salva > {conta.numero}")
             self.database.set_historico(f"conta aberta dia {conta._historico.data_abertura} Numero: {conta._numero_conta}. Limite: {conta._limite}", cpf)
@@ -53,7 +52,7 @@ class OperacoesServidor:
                 self.database.set_historico(f"Tentativa de saque dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
                 return "False"
             else:
-                self.database.atualizar_saldo(cpf, (float(conta[2]) - float(valor)))
+                self.database.atualizar_saldo(cpf, (conta[2] - float(valor)))
                 self.database.set_historico(f"Saque realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
                 return "True"
 
@@ -67,15 +66,15 @@ class OperacoesServidor:
 
         if type(conta_origem) == tuple:
 
-            if float(valor) > float(conta_origem[2]):
+            if float(valor) > conta_origem[2]:
                 self.database.set_historico(f"Tentativa de transferencia dia {datetime.today()} no valor de R$ {float(valor)}", cpf_origem)
                 return "False"
             elif(conta_destino == None):
                 return "False"
             else:
-                self.database.atualizar_saldo(cpf_origem,(float(conta_origem[2]) - float(valor)))
+                self.database.atualizar_saldo(cpf_origem,(conta_origem[2] - float(valor)))
                 self.database.set_historico(f"Transferencia realizada dia {datetime.today()} no valor de R$ {float(valor)}", cpf_origem)
-                self.database.atualizar_saldo(conta_destino[1],(float(conta_destino[2]) + float(valor)))
+                self.database.atualizar_saldo(conta_destino[1], conta_destino[2] + float(valor))
                 self.database.set_historico(f"Transferencia recebida dia {datetime.today()} no valor de R$ {float(valor)} de {cpf_origem}", conta_destino[1])
                 return "True"
 
@@ -85,7 +84,7 @@ class OperacoesServidor:
     def realizar_deposito(self, cpf, valor):
         conta = self.database.get_conta(cpf)
         if type(conta) == tuple:
-            self.database.atualizar_saldo(cpf, (float(conta[2]) + float(valor)))
+            self.database.atualizar_saldo(cpf, float(conta[2] + float(valor)))
             self.database.set_historico(f"Deposito realizado dia {datetime.today()} no valor de R$ {float(valor)}", cpf)
 
             return "True"
