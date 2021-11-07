@@ -10,17 +10,7 @@ from database import Database
 class OperacoesServidor:
 
     def __init__(self):
-        self.contas = Contas()
         self.database = Database()
-
-        cliente1 = Cliente("joao", "de sousa", "111")
-        conta1 = Conta(cliente1, "111")
-        conta1.depositar(200)
-        self.contas.salvar_conta(conta1)
-
-        cliente2 = Cliente("vitor", "santos de lima", "222")
-        conta2 = Conta(cliente2, "222")
-        self.contas.salvar_conta(conta2)
 
     def obter_usuario(self, cpf, senha):
         dado = self.database.get_usuario(cpf, senha)
@@ -36,7 +26,6 @@ class OperacoesServidor:
         conta = Conta(cliente, senha)
 
         if self.database.adicionar_conta(conta) == "True":
-            print(f"conta salva > {conta.numero}")
             self.database.set_historico(f"conta aberta dia {conta._historico.data_abertura} Numero: {conta._numero_conta}. Limite: {conta._limite}", cpf)
             return "True/"+conta.numero
 

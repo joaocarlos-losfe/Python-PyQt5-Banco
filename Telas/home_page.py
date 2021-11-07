@@ -33,12 +33,8 @@ class Ui_MainHomePage(object):
         self.estilo = Estilos()
         self.tela_index = 0
         self.contas = Contas()
-        self._tempConta = None
         self._cpf = None
         self.show_password_flag = True
-
-        #------clientes teste
-
 
     def reset_botoes_acoes(self):
         self.btn_goto_tela_cadastro.setStyleSheet(self.estilo.estilo_botao_navegacao())
@@ -136,26 +132,29 @@ class Ui_MainHomePage(object):
     #ao clicar no botão de salvar na tela de cadastro
     def salvar_novo_cadastro(self):
 
-        nome = self.tela_cadastro.le_cad_nome.text()
-        sobre_nome = self.tela_cadastro.le_cad_sobrenome.text()
-        cpf = self.tela_cadastro.le_cad_cpf.text()
-        senha = self.tela_cadastro.le_cad_senha.text()
+        try:
+            nome = self.tela_cadastro.le_cad_nome.text()
+            sobre_nome = self.tela_cadastro.le_cad_sobrenome.text()
+            cpf = self.tela_cadastro.le_cad_cpf.text()
+            senha = self.tela_cadastro.le_cad_senha.text()
 
-        if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
-            Dialogs.alert_mensage('⚠ Algun(s) campo(s) estão vazio(s) ', "ERRO")
-        else:
-
-            server_response = Client.enviar_dados("cadastro/"+nome+"/"+sobre_nome+"/"+cpf+"/"+senha)
-            server_response = server_response.split('/')
-
-            if server_response[0] == "True":
-                Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
-                Dialogs.alert_mensage(f"✅ Número da sua conta é: {server_response[1]}", "OK")
+            if nome == '' or sobre_nome == '' or cpf  == '' or senha == '':
+                Dialogs.alert_mensage('⚠ Algun(s) campo(s) estão vazio(s) ', "ERRO")
             else:
-                Dialogs.alert_mensage('⚠ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
 
-            self.limpar_campos()
-            self.goto_tela_apresentacao()
+                server_response = Client.enviar_dados("cadastro/"+nome+"/"+sobre_nome+"/"+cpf+"/"+senha)
+                server_response = server_response.split('/')
+
+                if server_response[0] == "True":
+                    Dialogs.alert_mensage("✅ Cadastro realizado com sucesso. ", "OK")
+                    Dialogs.alert_mensage(f"✅ Número da sua conta é: {server_response[1]}", "OK")
+                else:
+                    Dialogs.alert_mensage('⚠ Erro na criação da conta. Tente Novamente mais tarde ', "ERRO")
+
+                self.limpar_campos()
+                self.goto_tela_apresentacao()
+        except:
+            Dialogs.alert_mensage("Erro ao conectar ao servidor", "ERRO")
 
     #ao clicar no botão "sacar" da tela de saque
 
@@ -201,7 +200,7 @@ class Ui_MainHomePage(object):
                         print(server_response)
                         Dialogs.alert_mensage("⚠ Houve um erro na transferencia - verifique suas informações", "ERRO")
                 else:
-                    Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
+                    Dialogs.alert_mensage("⚠ Valor não pode ser negativo", "ERRO")
             else:
                 Dialogs.alert_mensage("⚠ Valor informado invalido", "ERRO")
         except:
@@ -323,13 +322,11 @@ class Ui_MainHomePage(object):
         self.tela_transferencia.le_tran_conta.setText('')
         # self.tela_transferencia.le_tran_agencia.setText('')
         self.tela_transferencia.le_tran_valor_transferencia.setText('')
-        # tela extrato
 
 
     def goto_tela_apresentacao(self):
         Dialogs.alert_mensage("Operação finalizada ✅", "finalizado")
         self.tela_index = 0
-        self._tempConta = None
         self.stack_telas.setCurrentIndex(0)
         self._cpf = None
         self.reset_botoes_acoes()

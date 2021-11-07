@@ -100,25 +100,6 @@ class Query:
                 WHERE numero_conta = %s;
                 """
 
-    # MÉTODOS DE REMOÇÃO DE DADOS
-
-    @staticmethod
-    def query_delete_cliente():
-        return  """
-                DELETE FROM Cliente WHERE CPF = %s;
-                """
-    @staticmethod
-    def query_delete_conta():
-        return  """
-                DELETE FROM Conta WHERE numero = %s;
-                """
-    @staticmethod
-    def query_delete_historico():
-        return  """
-                DELETE FROM Historico WHERE numero_conta = %s;
-                """
-    # MÉTODOS DE CAPTURAS DE DADOS
-
 
     @staticmethod
     def query_get_conta():
