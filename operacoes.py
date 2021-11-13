@@ -123,8 +123,4 @@ class OperacoesServidor:
         else:
             print("informacoes[0] invalida")
 
-<<<<<<< HEAD
-        return sucesso
-=======
         return "False"
->>>>>>> ca8b01d30ae6f6937963688d65bd46f0c0711802

@@ -9,7 +9,7 @@ class Database:
 
     def __init__(self):
 
-        self.conexao = mysql.connect(host = 'localhost', db = 'BancoReal',user = 'root', passwd = 'targout00')
+        self.conexao = mysql.connect(host = 'localhost', db = 'BancoReal',user = 'root', passwd = 'sousafej2021')
         self.cursor = self.conexao.cursor()
         self.inicializar_db()
 

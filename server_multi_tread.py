@@ -2,7 +2,7 @@ import threading
 from operacoes import OperacoesServidor
 import socket
 
-class ServerTrhead(threading.Thread):
+class ServerThread(threading.Thread):
     def __init__(self, informacoes_cliente:str, socket, addr):
         threading.Thread.__init__(self)
         self.socket = socket
@@ -35,7 +35,7 @@ if __name__=='__main__':
         mensagem_cliente = mensagem_cliente.decode()
 
         if mensagem_cliente != "~desconetar~":
-            cliente_thread = ServerTrhead(mensagem_cliente, clientsock, clientAddr)
+            cliente_thread = ServerThread(mensagem_cliente, clientsock, clientAddr)
             cliente_thread.start()
         else:
             break; 
