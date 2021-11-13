@@ -102,8 +102,6 @@ class OperacoesServidor:
 
         informacoes = informacoes.split('/')
 
-        sucesso = "False"
-
         if informacoes[0] == "cadastro":
             return self.realizar_cadastro(informacoes[1], informacoes[2], informacoes[3], informacoes[4])
 
@@ -115,7 +113,6 @@ class OperacoesServidor:
 
         elif informacoes[0] == "transferencia":
             return self.realizar_transferencia(informacoes[1],informacoes[2],informacoes[3])
-            #cpf_origem,conta_destino,valor
 
         elif informacoes[0] == "deposito":
             return self.realizar_deposito(informacoes[1], informacoes[2])
@@ -126,4 +123,8 @@ class OperacoesServidor:
         else:
             print("informacoes[0] invalida")
 
+<<<<<<< HEAD
         return sucesso
+=======
+        return "False"
+>>>>>>> ca8b01d30ae6f6937963688d65bd46f0c0711802
