@@ -1,5 +1,5 @@
-from logging import Logger
 import os
+from logging import Logger
 from typing import List, Tuple
 import mysql.connector as mysql
 from querys import Query
@@ -9,7 +9,7 @@ class Database:
 
     def __init__(self):
 
-        self.conexao = mysql.connect(host = 'localhost', db = 'BancoReal',user = 'root', passwd = 'sousafej2021')
+        self.conexao = mysql.connect(host = 'localhost', db = 'BancoReal',user = 'root', passwd = 'targout00')
         self.cursor = self.conexao.cursor()
         self.inicializar_db()
 
