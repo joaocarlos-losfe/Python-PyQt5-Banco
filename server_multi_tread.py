@@ -24,11 +24,12 @@ if __name__=='__main__':
     servidor_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     servidor_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     servidor_socket.bind(endereco)
+    servidor_socket.listen(1)
 
     print("servidor iniciado")
 
     while True:
-        servidor_socket.listen(1)
+        
         clientsock, clientAddr = servidor_socket.accept()
         mensagem_cliente = clientsock.recv(1024)
         mensagem_cliente = mensagem_cliente.decode()
@@ -36,6 +37,10 @@ if __name__=='__main__':
         if mensagem_cliente != "~desconetar~":
             cliente_thread = ServerTrhead(mensagem_cliente, clientsock, clientAddr)
             cliente_thread.start()
+        else:
+            break; 
+             
+    servidor_socket.close()
 
 
         
