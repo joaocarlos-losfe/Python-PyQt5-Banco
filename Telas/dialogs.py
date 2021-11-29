@@ -1,8 +1,5 @@
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMessageBox, QDialog, QLineEdit, QDialogButtonBox, QFormLayout, QApplication
-from pyqt5_plugins.examplebutton import QtWidgets
-
-
 
 class Dialogs:
 
